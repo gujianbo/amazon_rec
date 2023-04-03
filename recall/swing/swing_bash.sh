@@ -11,7 +11,7 @@ echo ${out_folder}
 # 生成item pair
 python -u swing_gen_item_pair.py --input_file ${root}/${raw_folder}/sessions_train.csv \
   --output_file ${root}/${out_folder}/swing.sim \
-  --log_file ${root}/log/swing_pair.log \
+  --log_file ${root}/log/swing_pair.log
 
 # 对item pair进行排序后uniq，删掉只有一个的pair
 for i in $(seq 0 9)
