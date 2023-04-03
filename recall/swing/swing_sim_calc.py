@@ -38,21 +38,21 @@ def load_item2session(i, j, output_file):
         for line in tqdm(f, desc="load_item2session_" + str(i)):
             line = line.strip()
             item, sessions = line.split("\t")
-            item = int(item)
-            session_set = set(map(int, sessions.split(",")))
+            # item = int(item)
+            session_set = set(sessions.split(","))
             item2session[item] = session_set
 
     with open(str(item_path) + "/item2session_" + str(j), "r") as f:
         for line in tqdm(f, desc="load_item2session_" + str(j)):
             line = line.strip()
             item, sessions = line.split("\t")
-            item = int(item)
-            session_set = set(map(int, sessions.split(",")))
+            # item = int(item)
+            session_set = set(sessions.split(","))
             item2session[item] = session_set
     return item2session
 
 
-def calc_simlarity(session_item, i, j, output_file, sim_fd, alpha=1.0, session_num_threhold=1000, debug=0):
+def calc_simlarity(session_item, i, j, output_file, sim_fd, alpha=1.0, session_num_threhold=10000, debug=0):
     item2session = load_item2session(i, j, output_file)
     logging.info("load_item2session "+str(i) + "_" + str(j) + " done!")
     pair_path = Path(output_file).parent.joinpath("pair")
@@ -64,8 +64,8 @@ def calc_simlarity(session_item, i, j, output_file, sim_fd, alpha=1.0, session_n
         for item_pair in tqdm(f, desc="calc_simlarity:"+pair_file):
             pair_str = item_pair.strip()
             item_i, item_j = pair_str.split(",")
-            item_i = int(item_i)
-            item_j = int(item_j)
+            # item_i = int(item_i)
+            # item_j = int(item_j)
             common_sessions = item2session[item_i] & item2session[item_j]
             if len(common_sessions) <= 1:
                 continue

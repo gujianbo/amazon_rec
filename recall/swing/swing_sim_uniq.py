@@ -18,8 +18,8 @@ def uniq_sim(out_path):
         for item_pair in tqdm(f, desc="uniq_sim:"+infile):
             pair_str = item_pair.strip()
             item_i, item_j, score = pair_str.split("\t")
-            item_i = int(item_i)
-            item_j = int(item_j)
+            # item_i = int(item_i)
+            # item_j = int(item_j)
             score = float(score)
             item_sim_dict.setdefault(item_i, Heap(item_i, 100))
             item_sim_dict[item_i].enter_item([item_j, score])
