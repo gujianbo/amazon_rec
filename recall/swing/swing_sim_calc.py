@@ -25,8 +25,8 @@ def load_session2item(session_file):
         for line in tqdm(f, desc="load_session2item"):
             line = line.strip()
             session, items = line.split("\t")
-            session = int(session)
-            item_set = set(map(int, items.split(",")))
+            # session = int(session)
+            item_set = set(items.split(","))
             session2item[session] = item_set
     return session2item
 
