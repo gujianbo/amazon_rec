@@ -17,7 +17,7 @@ def load_recall(input_file, topk=100):
         item_cnt = 0
         for line in tqdm(fd, desc="load_recall"):
             left_item, right_item, score = line.split("\t")
-            score = int(score)
+            score = float(score)
             if last_item != left_item:
                 item_cnt = 0
 
