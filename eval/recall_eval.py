@@ -98,3 +98,6 @@ def eval(input_file, i2i_dict):
 if __name__ == "__main__":
     input_file = config.input_file
     i2i_file = config.i2i_file
+
+    i2i_dict = load_recall(i2i_file, 50)
+    eval(input_file, i2i_dict)
