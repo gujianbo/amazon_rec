@@ -21,7 +21,7 @@ def gen_item_pair(input_file, output_file, debug=0):
     fdout = []
     for i in range(10):
         for j in range(10):
-            fd = open(str(pair_path)+"/pair_"+str(i)+"_"+str(j)+"csv", "w")
+            fd = open(str(pair_path)+"/pair_"+str(i)+"_"+str(j)+".csv", "w")
             fd.write("item1,item2,weight")
             fdout.append(fd)
     idx = 0
@@ -39,11 +39,7 @@ def gen_item_pair(input_file, output_file, debug=0):
         pair_list = list(combinations(session_set, 2))
 
         for pair in pair_list:
-            if pair[0] > pair[1]:
-                pair_str = str(pair[0]) + "," + str(pair[1])
-            elif pair[0] < pair[1]:
-                pair_str = str(pair[1]) + "," + str(pair[0])
-            else:
+            if pair[0] == pair[1]:
                 continue
             idx_1 = session.index(pair[0])
             idx_2 = session.index(pair[1])
@@ -52,7 +48,8 @@ def gen_item_pair(input_file, output_file, debug=0):
             hash1 = int(hashlib.md5((str(pair[0]) + str(config.seed)).encode('utf8')).hexdigest()[0:10], 16) % 10
             hash2 = int(hashlib.md5((str(pair[1]) + str(config.seed)).encode('utf8')).hexdigest()[0:10], 16) % 10
             hash_code = 10 * hash1 + hash2
-            fdout[hash_code].write(f"{pair_str},{weight}\n")
+            fdout[hash_code].write(f"{pair[0]},{pair[1]},{weight}\n")
+            fdout[hash_code].write(f"{pair[1]},{pair[0]},{weight}\n")
         if debug == 1:
             idx += 1
             if idx >= 10000:
