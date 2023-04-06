@@ -15,15 +15,10 @@ logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FO
 
 def gen_item_pair(input_file, output_file, debug=0):
     # session_item = dict()
-    pair_path = Path(output_file).parent.joinpath("pair")
-    pair_path.mkdir(parents=True, exist_ok=True)
+    pair_path = Path(output_file).parent
 
-    fdout = []
-    for i in range(10):
-        for j in range(10):
-            fd = open(str(pair_path)+"/pair_"+str(i)+"_"+str(j)+".csv", "w")
-            fd.write("item1,item2,weight")
-            fdout.append(fd)
+    fdout = open(str(pair_path)+"/pairs.csv", "w")
+    fdout.write("item1,item2,weight")
     idx = 0
 
     session_pd = pd.read_csv(input_file, sep=",")
@@ -48,14 +43,13 @@ def gen_item_pair(input_file, output_file, debug=0):
             hash1 = int(hashlib.md5((str(pair[0]) + str(config.seed)).encode('utf8')).hexdigest()[0:10], 16) % 10
             hash2 = int(hashlib.md5((str(pair[1]) + str(config.seed)).encode('utf8')).hexdigest()[0:10], 16) % 10
             hash_code = 10 * hash1 + hash2
-            fdout[hash_code].write(f"{pair[0]},{pair[1]},{weight}\n")
-            fdout[hash_code].write(f"{pair[1]},{pair[0]},{weight}\n")
+            fdout.write(f"{pair[0]},{pair[1]},{weight}\n")
+            fdout.write(f"{pair[1]},{pair[0]},{weight}\n")
         if debug == 1:
             idx += 1
             if idx >= 10000:
                 break
-    for fd in fdout:
-        fd.close()
+    fdout.close()
 
 
 if __name__ == "__main__":
