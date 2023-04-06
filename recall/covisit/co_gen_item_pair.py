@@ -18,7 +18,7 @@ def gen_item_pair(input_file, output_file, debug=0):
     pair_path = Path(output_file).parent
 
     fdout = open(str(pair_path)+"/pairs.csv", "w")
-    fdout.write("item1,item2,weight")
+    fdout.write("item1,item2,weight\n")
     idx = 0
 
     session_pd = pd.read_csv(input_file, sep=",")
