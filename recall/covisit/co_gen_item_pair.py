@@ -13,15 +13,17 @@ LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(mes
 logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FORMAT)
 
 
-def gen_item_pair(input_file, output_file, debug=0):
+def gen_item_pair(input_file, output_file, country, debug=0):
     # session_item = dict()
     pair_path = Path(output_file).parent
 
-    fdout = open(str(pair_path)+"/pairs.csv", "w")
+    fdout = open(str(pair_path)+"/pairs." + country + ".csv", "w")
     fdout.write("item1,item2,weight\n")
     idx = 0
 
     session_pd = pd.read_csv(input_file, sep=",")
+    if country != "global":
+        session_pd[session_pd.locale == country]
 
     for index, row in tqdm(session_pd.iterrows(), desc="gen_item_pair"):
         session = [sess.strip().strip("[").strip("]").strip("'") for sess in row["prev_items"].split()]
@@ -55,5 +57,6 @@ def gen_item_pair(input_file, output_file, debug=0):
 if __name__ == "__main__":
     logging.info("input_file:" + config.input_file)
     logging.info("output_file:" + config.output_file)
-    gen_item_pair(config.input_file, config.output_file, config.debug)
+    logging.info("country:" + config.country)
+    gen_item_pair(config.input_file, config.output_file, config.country, config.debug)
 

@@ -11,4 +11,5 @@ echo ${out_folder}
 # 生成item pair
 python -u co_gen_item_pair.py --input_file ${root}/${raw_folder}/sessions_train.csv \
   --output_file ${root}/${out_folder}/covisit.txt \
+  --country global \
   --log_file ${root}/log/co_pair.log
