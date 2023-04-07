@@ -23,7 +23,7 @@ def gen_item_pair(input_file, output_file, country, debug=0):
 
     session_pd = pd.read_csv(input_file, sep=",")
     if country != "global":
-        session_pd[session_pd.locale == country]
+        session_pd = session_pd[session_pd.locale == country]
 
     for index, row in tqdm(session_pd.iterrows(), desc="gen_item_pair"):
         session = [sess.strip().strip("[").strip("]").strip("'") for sess in row["prev_items"].split()]
