@@ -20,8 +20,8 @@ def calc_weight(input_file, output_file):
     pair_df['n'] = pair_df.groupby('item1').item2.cumcount()
     pair_df = pair_df.loc[pair_df.n < 100].drop('n', axis=1)
     with open(output_file, "w") as fd:
-        for row in pair_df.iterrows():
-            fd.write(f"{row['item1']}\t{row['item2']}\t{row['score']}\n")
+        for index, row in pair_df.iterrows():
+            fd.write(f"{row['item1']}\t{row['item2']}\t{row['weight']}\n")
 
 
 if __name__ == "__main__":
