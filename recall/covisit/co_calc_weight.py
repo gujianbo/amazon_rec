@@ -27,4 +27,4 @@ def calc_weight(input_file, output_file):
 if __name__ == "__main__":
     logging.info("input_file:" + config.input_file)
     logging.info("output_file:" + config.output_file)
-    calc_weight(config.input_file, config.output_file, config.debug)
+    calc_weight(config.input_file, config.output_file)

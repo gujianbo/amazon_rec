@@ -13,3 +13,11 @@ python -u co_gen_item_pair.py --input_file ${root}/${raw_folder}/sessions_train.
   --output_file ${root}/${out_folder}/covisit.txt \
   --country global \
   --log_file ${root}/log/co_pair.log
+
+python -u co_calc_weight.py --input_file ${root}/${out_folder}/pairs.global.csv \
+  --output_file ${root}/${out_folder}/co.global.txt \
+  --log_file ${root}/log/co_pair.log
+
+python -u co_calc_weight.py --input_file ${root}/${out_folder}/pairs.global.csv \
+  --output_file ${root}/${out_folder}/co.global.txt \
+  --log_file ${root}/log/co_pair.log
