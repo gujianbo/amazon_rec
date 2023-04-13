@@ -18,7 +18,7 @@ def calc_weight(input_file, output_file):
     pair_df = pair_df.sort_values(['item1', 'weight'], ascending=[True, False])
     pair_df = pair_df.reset_index()
     pair_df['n'] = pair_df.groupby('item1').item2.cumcount()
-    pair_df = pair_df.loc[pair_df.n < 100].drop('n', axis=1)
+    pair_df = pair_df.loc[pair_df.n < 40].drop('n', axis=1)
 
     co_dict = pair_df.groupby('item1').item2.apply(list)
     import pickle
