@@ -19,9 +19,11 @@ def calc_weight(input_file, output_file):
     pair_df = pair_df.reset_index()
     pair_df['n'] = pair_df.groupby('item1').item2.cumcount()
     pair_df = pair_df.loc[pair_df.n < 100].drop('n', axis=1)
-    with open(output_file, "w") as fd:
-        for index, row in pair_df.iterrows():
-            fd.write(f"{row['item1']}\t{row['item2']}\t{row['weight']}\n")
+
+    co_dict = pair_df.groupby('item1').item2.apply(list)
+    import pickle
+    with open(output_file, 'wb') as fd:
+        pickle.dump(co_dict.to_dict(), fd)
 
 
 if __name__ == "__main__":
