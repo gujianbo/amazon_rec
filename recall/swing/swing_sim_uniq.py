@@ -31,11 +31,17 @@ def uniq_sim(out_path):
 
 
 def output_sim_file(item_sim_dict, out_path):
-    fd = open(out_path, "w")
+    # fd = open(out_path, "w")
+    sim_dict = dict()
     for item, sim_items in item_sim_dict.items():
-        sim_score = sim_items.top_items()
-        for (item_j, score) in sim_score:
-            fd.write(str(item) + "\t" + str(item_j) + "\t" + str(score) + "\n")
+        # sim_score = sim_items.top_items()
+        # for (item_j, score) in sim_score:
+        #     fd.write(str(item) + "\t" + str(item_j) + "\t" + str(score) + "\n")
+        sim_items = [item_j for (item_j, score) in sim_items.top_items()]
+        sim_dict[item] = sim_items
+    import pickle
+    with open(out_path, 'wb') as fd:
+        pickle.dump(sim_dict, fd)
     fd.close()
 
 
