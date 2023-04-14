@@ -33,4 +33,5 @@ python -u swing_sim_uniq.py --output_file ${root}/${out_folder}/swing.sim \
 
 
 
-
+python -u swing_sim_uniq.py --output_file ${root}/${out_folder}/swing.sim \
+  --log_file ${root}/log/swing_sim.log
