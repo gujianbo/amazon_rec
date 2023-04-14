@@ -16,6 +16,7 @@ parser.add_argument("--country", type=str, default='', help="country")
 parser.add_argument('--seed', type=int, default=42)
 parser.add_argument('--debug', type=int, default=0)
 parser.add_argument('--topk', type=int, default=50)
+parser.add_argument('--single_topk', type=int, default=30)
 
 config = parser.parse_args()
 

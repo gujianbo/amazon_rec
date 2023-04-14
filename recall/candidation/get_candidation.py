@@ -59,7 +59,7 @@ def load_recall(root_path):
     return recall_dict
 
 
-def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, output_file):
+def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, single_topk, output_file):
     session_pd = pd.read_csv(input_file, sep=",")
     out_dict = {"prev_items": [], "next_item": [], "locale": [], "candi": []}
     for index, row in tqdm(session_pd.iterrows(), desc="gen_item_pair"):
@@ -71,7 +71,7 @@ def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, output_file):
         ln = len(session)
         candidates = Counter()
         aids1 = list(itertools.chain(*[
-            [rec_id for rec_id in recall_dict["swing"][aid] if rec_id in pro_dict and locale in pro_dict[rec_id]][:30]
+            [rec_id for rec_id in recall_dict["swing"][aid] if rec_id in pro_dict and locale in pro_dict[rec_id]][:single_topk]
             for aid in session[::-1] if aid in recall_dict["swing"]]))
         for i, aid in enumerate(aids1):
             m = 0.1 + 0.9 * (ln - (i // 20)) / ln
@@ -79,7 +79,7 @@ def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, output_file):
 
         aids2 = list(itertools.chain(*[
             [rec_id for rec_id in recall_dict["co_global"][aid] if
-             rec_id in pro_dict and locale in pro_dict[rec_id]][:30]
+             rec_id in pro_dict and locale in pro_dict[rec_id]][:single_topk]
             for aid in session[::-1] if aid in recall_dict["co_global"]]))
         for i, aid in enumerate(aids2):
             candidates[aid] += 0.5
@@ -87,7 +87,7 @@ def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, output_file):
         local_dict = recall_dict["co_" + locale]
         aids3 = list(itertools.chain(*[
             [rec_id for rec_id in local_dict[aid] if
-             rec_id in pro_dict and locale in pro_dict[rec_id]][:30]
+             rec_id in pro_dict and locale in pro_dict[rec_id]][:single_topk]
             for aid in session[::-1] if aid in local_dict]))
         for i, aid in enumerate(aids3):
             candidates[aid] += 0.5
@@ -109,9 +109,11 @@ if __name__ == "__main__":
     logging.info("output_file:" + config.output_file)
     logging.info("product_file:" + config.product_file)
     logging.info("root_path:" + config.root_path)
+    logging.info("topk:" + str(config.topk))
+    logging.info("single_topk:" + str(config.single_topk))
 
     pro_dict = load_product(config.product_file)
     recall_dict = load_recall(config.root_path)
     hot_dict = load_hot(config.root_path)
 
-    get_candi(config.input_file, recall_dict, pro_dict, hot_dict, config.topk, config.output_file)
+    get_candi(config.input_file, recall_dict, pro_dict, hot_dict, config.topk, config.single_topk, config.output_file)
