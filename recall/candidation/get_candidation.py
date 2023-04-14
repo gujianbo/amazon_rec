@@ -71,7 +71,7 @@ def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, output_file):
         ln = len(session)
         candidates = Counter()
         aids1 = list(itertools.chain(*[
-            [rec_id for rec_id in recall_dict["swing"][aid] if rec_id in pro_dict and locale in pro_dict[rec_id]][:20]
+            [rec_id for rec_id in recall_dict["swing"][aid] if rec_id in pro_dict and locale in pro_dict[rec_id]][:30]
             for aid in session[::-1] if aid in recall_dict["swing"]]))
         for i, aid in enumerate(aids1):
             m = 0.1 + 0.9 * (ln - (i // 20)) / ln
@@ -79,7 +79,7 @@ def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, output_file):
 
         aids2 = list(itertools.chain(*[
             [rec_id for rec_id in recall_dict["co_global"][aid] if
-             rec_id in pro_dict and locale in pro_dict[rec_id]][:20]
+             rec_id in pro_dict and locale in pro_dict[rec_id]][:30]
             for aid in session[::-1] if aid in recall_dict["co_global"]]))
         for i, aid in enumerate(aids2):
             candidates[aid] += 0.5
@@ -87,7 +87,7 @@ def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, output_file):
         local_dict = recall_dict["co_" + locale]
         aids3 = list(itertools.chain(*[
             [rec_id for rec_id in local_dict[aid] if
-             rec_id in pro_dict and locale in pro_dict[rec_id]][:20]
+             rec_id in pro_dict and locale in pro_dict[rec_id]][:30]
             for aid in session[::-1] if aid in local_dict]))
         for i, aid in enumerate(aids3):
             candidates[aid] += 0.5
