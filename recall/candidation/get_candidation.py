@@ -17,19 +17,35 @@ logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FO
 def load_product(product_file):
     df = pd.read_csv(product_file)
     df_dic = df.groupby("id").locale.apply(set)
+    print("load_product done!")
     return df_dic.to_dict()
+
+
+def load_hot(root_path):
+    import pickle
+    hot_dict = pickle.load(open(f'{root_path}/hot.dict', 'rb'))
+    print("load_hot done!")
+    return hot_dict
 
 
 def load_recall(root_path):
     import pickle
     co_global = pickle.load(open(f'{root_path}/covisit/co.global.dict', 'rb'))
+    print("load_recall global done!")
     co_de = pickle.load(open(f'{root_path}/covisit/co.DE.dict', 'rb'))
+    print("load_recall DE done!")
     co_jp = pickle.load(open(f'{root_path}/covisit/co.JP.dict', 'rb'))
+    print("load_recall JP done!")
     co_uk = pickle.load(open(f'{root_path}/covisit/co.UK.dict', 'rb'))
+    print("load_recall UK done!")
     co_it = pickle.load(open(f'{root_path}/covisit/co.IT.dict', 'rb'))
+    print("load_recall IT done!")
     co_es = pickle.load(open(f'{root_path}/covisit/co.ES.dict', 'rb'))
+    print("load_recall ES done!")
     co_fr = pickle.load(open(f'{root_path}/covisit/co.FR.dict', 'rb'))
+    print("load_recall FR done!")
     swing = pickle.load(open(f'{root_path}/swing/swing.sim', 'rb'))
+    print("load_recall swing done!")
 
     recall_dict = dict()
     recall_dict["co_global"] = co_global
@@ -43,17 +59,19 @@ def load_recall(root_path):
     return recall_dict
 
 
-def get_candi(input_file, recall_dict, product_file):
+def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, output_file):
     session_pd = pd.read_csv(input_file, sep=",")
+    out_dict = {"prev_items": [], "next_item": [], "locale": [], "candi": []}
     for index, row in tqdm(session_pd.iterrows(), desc="gen_item_pair"):
         session = [sess.strip().strip("[").strip("]").strip("'") for sess in row["prev_items"].split()]
         next_item = row["next_item"]
         locale = row["locale"]
+        unique_ids = list(dict.fromkeys(session[::-1]))
 
         ln = len(session)
         candidates = Counter()
         aids1 = list(itertools.chain(*[
-            [rec_id for rec_id in recall_dict["swing"][aid] if rec_id in product_file and locale in product_file[rec_id]][:20]
+            [rec_id for rec_id in recall_dict["swing"][aid] if rec_id in pro_dict and locale in pro_dict[rec_id]][:20]
             for aid in session[::-1] if aid in recall_dict["swing"]]))
         for i, aid in enumerate(aids1):
             m = 0.1 + 0.9 * (ln - (i // 20)) / ln
@@ -61,22 +79,30 @@ def get_candi(input_file, recall_dict, product_file):
 
         aids2 = list(itertools.chain(*[
             [rec_id for rec_id in recall_dict["co_global"][aid] if
-             rec_id in product_file and locale in product_file[rec_id]][:20]
+             rec_id in pro_dict and locale in pro_dict[rec_id]][:20]
             for aid in session[::-1] if aid in recall_dict["co_global"]]))
         for i, aid in enumerate(aids2):
-            candidates[aid] += 1
+            candidates[aid] += 0.5
 
         local_dict = recall_dict["co_" + locale]
         aids3 = list(itertools.chain(*[
             [rec_id for rec_id in local_dict[aid] if
-             rec_id in product_file and locale in product_file[rec_id]][:20]
+             rec_id in pro_dict and locale in pro_dict[rec_id]][:20]
             for aid in session[::-1] if aid in local_dict]))
         for i, aid in enumerate(aids3):
-            candidates[aid] += 1
+            candidates[aid] += 0.5
 
+        top_candi = [k for k, v in candidates.most_common(topk) if k not in unique_ids]
 
+        result = unique_ids + top_candi[:topk - len(unique_ids)]
+        result = (result + hot_dict[locale][:topk - len(result)])[:topk]
+        out_dict["session"].append(",".join(session))
+        out_dict["next_item"].append(next_item)
+        out_dict["locale"].append(locale)
+        out_dict["candi"].append(",".join(result))
 
-
+    out_pd = pd.DataFrame(out_dict)
+    out_pd.to_csv(output_file)
 
 if __name__ == "__main__":
     logging.info("input_file:" + config.input_file)
@@ -86,5 +112,6 @@ if __name__ == "__main__":
 
     pro_dict = load_product(config.product_file)
     recall_dict = load_recall(config.root_path)
+    hot_dict = load_hot(config.root_path)
 
-    get_candi(config.input_file, recall_dict)
+    get_candi(config.input_file, recall_dict, pro_dict, hot_dict, config.topk, config.output_file)
