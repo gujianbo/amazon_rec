@@ -16,23 +16,40 @@ def eval_candi(input_file):
     hit10cnt = 0
     hit20cnt = 0
     hit50cnt = 0
+    hit100cnt = 0
+    hit150cnt = 0
+    hit200cnt = 0
     for index, row in tqdm(session_pd.iterrows(), desc="eval_candi"):
         next_item = row["next_item"]
         candi = row["candi"].split(",")
         if next_item in candi:
-            hit50cnt += 1
+            hit200cnt += 1
         if next_item in candi[:10]:
             hit10cnt += 1
         if next_item in candi[:20]:
             hit20cnt += 1
+        if next_item in candi[:50]:
+            hit50cnt += 1
+        if next_item in candi[:100]:
+            hit100cnt += 1
+        if next_item in candi[:150]:
+            hit150cnt += 1
+        if next_item in candi[:200]:
+            hit200cnt += 1
         cnt += 1
 
-    hit50rate = hit50cnt / cnt
     hit10rate = hit10cnt / cnt
     hit20rate = hit20cnt / cnt
+    hit50rate = hit50cnt / cnt
+    hit100rate = hit100cnt / cnt
+    hit150rate = hit150cnt / cnt
+    hit200rate = hit200cnt / cnt
     logging.info(f"hit_rate@10:{hit10rate}")
     logging.info(f"hit_rate@20:{hit20rate}")
     logging.info(f"hit_rate@50:{hit50rate}")
+    logging.info(f"hit_rate@100:{hit100rate}")
+    logging.info(f"hit_rate@150:{hit150rate}")
+    logging.info(f"hit_rate@200:{hit200rate}")
 
 
 if __name__ == "__main__":
