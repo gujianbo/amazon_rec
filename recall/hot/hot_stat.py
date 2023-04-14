@@ -23,7 +23,7 @@ def stat(input_file, output_file, topk):
         seq_set.add(next_item)
         for item in seq_set:
             if locale not in hot_dict:
-                hot_dict[locale] = Counter
+                hot_dict[locale] = Counter()
             hot_dict[locale][item] += 1
 
     top_hot_dict = dict()
