@@ -9,6 +9,7 @@ import pandas as pd
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(message)s"
 logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FORMAT)
 
+
 def eval_candi(input_file):
     session_pd = pd.read_csv(input_file, sep=",")
     cnt = 0
@@ -17,7 +18,7 @@ def eval_candi(input_file):
     hit50cnt = 0
     for index, row in tqdm(session_pd.iterrows(), desc="eval_candi"):
         next_item = row["next_item"]
-        candi = row["candi"].split()
+        candi = row["candi"].split(",")
         if next_item in candi:
             hit50cnt += 1
         if next_item in candi[:10]:
