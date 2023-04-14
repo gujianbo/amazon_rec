@@ -96,7 +96,7 @@ def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, output_file):
 
         result = unique_ids + top_candi[:topk - len(unique_ids)]
         result = (result + hot_dict[locale][:topk - len(result)])[:topk]
-        out_dict["session"].append(",".join(session))
+        out_dict["prev_items"].append(",".join(session))
         out_dict["next_item"].append(next_item)
         out_dict["locale"].append(locale)
         out_dict["candi"].append(",".join(result))
