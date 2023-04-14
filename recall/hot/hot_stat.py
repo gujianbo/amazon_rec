@@ -27,7 +27,7 @@ def stat(input_file, output_file, topk):
             hot_dict[locale][item] += 1
 
     top_hot_dict = dict()
-    for country, cnt_dict in hot_dict:
+    for country, cnt_dict in hot_dict.items():
         result = [k for k, v in cnt_dict.most_common(topk)]
         top_hot_dict[country] = result
 
