@@ -13,6 +13,7 @@ parser.add_argument("--log_file", type=str, default='', help="log_file")
 parser.add_argument("--country", type=str, default='', help="country")
 parser.add_argument('--seed', type=int, default=42)
 parser.add_argument('--debug', type=int, default=0)
+parser.add_argument('--topk', type=int, default=50)
 
 config = parser.parse_args()
 
