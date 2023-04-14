@@ -39,5 +39,5 @@ def stat(input_file, output_file, topk):
 if __name__ == "__main__":
     logging.info("input_file:" + config.input_file)
     logging.info("output_file:" + config.output_file)
-    logging.info("topk:" + config.topk)
+    logging.info("topk:" + str(config.topk))
     stat(config.input_file, config.output_file, config.topk)
