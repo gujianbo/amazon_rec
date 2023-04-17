@@ -13,7 +13,7 @@ LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(mes
 logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FORMAT)
 
 
-def calc_weight(input_file, output_file):
+def calc_weight(input_file, output_file, topk):
     pair_df = pd.read_csv(input_file, sep=",")
     pair_df = pair_df.sort_values(['item1', 'weight'], ascending=[True, False])
     pair_df = pair_df.reset_index()
@@ -29,4 +29,5 @@ def calc_weight(input_file, output_file):
 if __name__ == "__main__":
     logging.info("input_file:" + config.input_file)
     logging.info("output_file:" + config.output_file)
-    calc_weight(config.input_file, config.output_file)
+    logging.info("topk:" + config.topk)
+    calc_weight(config.input_file, config.output_file, config.topk)
