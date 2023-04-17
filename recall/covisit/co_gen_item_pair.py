@@ -57,6 +57,6 @@ def gen_item_pair(input_file, output_file, country, debug=0):
 if __name__ == "__main__":
     logging.info("input_file:" + config.input_file)
     logging.info("output_file:" + config.output_file)
-    logging.info("country:" + config.country)
+    logging.info(f"country:{config.country}")
     gen_item_pair(config.input_file, config.output_file, config.country, config.debug)
 
