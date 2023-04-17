@@ -29,5 +29,5 @@ def calc_weight(input_file, output_file, topk):
 if __name__ == "__main__":
     logging.info("input_file:" + config.input_file)
     logging.info("output_file:" + config.output_file)
-    logging.info("topk:" + config.topk)
+    logging.info(f"topk:{config.topk}")
     calc_weight(config.input_file, config.output_file, config.topk)
