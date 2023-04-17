@@ -90,9 +90,9 @@ def eval(input_file, i2i_dict):
     pre50 = pre50_sum/cnt
     recall50 = recall50_sum/cnt
     hit_rate50 = hit_cnt50/cnt
-    logging.info(f"precision@10:{pre10}, recall@10:{recall10}, hit_rate@10:{hit_rate10}")
-    logging.info(f"precision@20:{pre20}, recall@20:{recall20}, hit_rate@20:{hit_rate20}")
-    logging.info(f"precision@50:{pre50}, recall@50:{recall50}, hit_rate@50:{hit_rate50}")
+    logging.info(f"{input_file} - precision@10:{pre10}, recall@10:{recall10}, hit_rate@10:{hit_rate10}")
+    logging.info(f"{input_file} - precision@20:{pre20}, recall@20:{recall20}, hit_rate@20:{hit_rate20}")
+    logging.info(f"{input_file} - precision@50:{pre50}, recall@50:{recall50}, hit_rate@50:{hit_rate50}")
 
 
 if __name__ == "__main__":
