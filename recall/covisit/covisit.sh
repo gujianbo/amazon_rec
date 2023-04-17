@@ -18,8 +18,8 @@ python -u co_calc_weight.py --input_file ${root}/${out_folder}/pairs.global.csv 
   --output_file ${root}/${out_folder}/co.global.txt \
   --log_file ${root}/log/co_pair.log
 
-nphup python -u co_calc_weight.py --input_file ${root}/${out_folder}/pairs.global.csv \
-  --output_file ${root}/${out_folder}/co.global.txt --topk 100 \
+nohup python -u co_calc_weight.py --input_file ${root}/${out_folder}/pairs.global.csv \
+  --output_file ${root}/${out_folder}/co.global.dict --topk 100 \
   --log_file ${root}/log/co_pair.log > co.log 2>&1 &
 
 nohup python -u co_calc_weight.py --input_file ${root}/${out_folder}/pairs.DE.csv \
