@@ -9,7 +9,7 @@ import pandas as pd
 def load_product(product_file):
     df = pd.read_csv(product_file)
     pro_dict = dict()
-    for index, row in df:
+    for index, row in df.iterrows():
         key = row["id"] + "_" + row["locale"]
         pro_dict[key] = row["title"]
     return pro_dict
