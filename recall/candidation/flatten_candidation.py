@@ -36,21 +36,27 @@ def tag(x):
 
 def flatten(input_file, output_file, drop_no_hit, rate=0):
     df = pd.read_csv(input_file).drop(['Unnamed: 0'], axis=1)
+    logging.info("load csv done!")
     # 去除candidates没命中的行
     if drop_no_hit:
         df["hit"] = df.apply(candi_in, axis=1)
         df = df.loc[df.hit == True].drop(['hit'], axis=1)
+        logging.info("drop no hit done!")
     if rate > 0:
         df["sample_candi"] = df.apply(neg_sample, axis=1, args=(rate, ))
         df = df.drop(['candi'], axis=1)
-        df_candi = df["sample_candi"].str.split(",", expand=True).stack().reset_index(level=1,drop=True)
+        logging.info("sample done!")
+        df_candi = df["sample_candi"].str.split(",", expand=True).stack().reset_index(level=1, drop=True)
         df_candi.name = 'recall_candi'
         df = df.drop(['sample_candi'], axis=1).join(df_candi)
+        logging.info("expand done!")
     else:
         df_candi = df["candi"].str.split(",", expand=True).stack().reset_index(level=1, drop=True)
         df_candi.name = 'recall_candi'
         df = df.drop(['candi'], axis=1).join(df_candi)
+        logging.info("expand done!")
     df['label'] = df.apply(tag, axis=1)
+    logging.info("label tag done!")
     df = df.drop(['next_item'], axis=1)
     df.to_csv(output_file, index_label=None)
 
