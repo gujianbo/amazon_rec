@@ -3,13 +3,7 @@ import sys
 sys.path.append("../..")
 from utils.args import config
 from tqdm.auto import tqdm
-from pathlib import Path
 import pandas as pd
-import logging
-import random
-
-LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(message)s"
-logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FORMAT)
 
 
 def load_product(product_file):
