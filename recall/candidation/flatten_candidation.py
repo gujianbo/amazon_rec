@@ -56,7 +56,9 @@ def flatten(input_file, output_file, drop_no_hit, rate=0):
 
 
 if __name__ == "__main__":
-    logging.info("input_file:" + config.input_file)
-    logging.info("output_file:" + config.output_file)
+    logging.info(f"input_file:{config.input_file}")
+    logging.info(f"output_file:{config.output_file}")
+    logging.info(f"drop_no_hit:{config.drop_no_hit}")
+    logging.info(f"neg_sample_rate:{config.neg_sample_rate}")
 
-    flatten(config.input_file, config.output_file)
+    flatten(config.input_file, config.output_file, config.drop_no_hit == 1, config.neg_sample_rate)
