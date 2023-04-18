@@ -23,16 +23,24 @@ def process(input_file, output_file, pro_dict):
         next_item = row["next_item"]
         locale = row["locale"]
         session.append(next_item)
-        text = locale
+        if locale == "DE":
+            text = "German"
+        elif locale == "JP":
+            text = "Japanese"
+        elif locale == "UK":
+            text = "English"
+        elif locale == "ES":
+            text = "Spanish"
+        elif locale == "FR":
+            text = "French"
+        elif locale == "IT":
+            text = "Italian"
         for item in session:
             key = item + "_" + locale
             title = ""
             if key in pro_dict:
-                title = pro_dict[key]
-            if text == "":
-                text += title
-            else:
-                text += "[SEP]" + title
+                title = str(pro_dict[key])
+            text += "[SEP]" + title
         fd.write(f"{text}\n")
     fd.close()
 
