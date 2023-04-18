@@ -23,7 +23,7 @@ def process(input_file, output_file, pro_dict):
         next_item = row["next_item"]
         locale = row["locale"]
         session.append(next_item)
-        text = ""
+        text = locale
         for item in session:
             key = item + "_" + locale
             title = ""
