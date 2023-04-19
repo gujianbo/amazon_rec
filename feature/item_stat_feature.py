@@ -47,4 +47,4 @@ def item_feature_stat(input_file, output_file):
 if __name__ == "__main__":
     print(f"input_file:{config.input_file}")
     print(f"output_file:{config.output_file}")
-    stat(config.input_file, config.output_file)
+    item_feature_stat(config.input_file, config.output_file)
