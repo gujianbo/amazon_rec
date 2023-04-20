@@ -5,6 +5,7 @@ sys.path.append("..")
 from utils.args import config
 from tqdm.auto import tqdm
 import pandas as pd
+import csv
 
 
 def load_item_feat(item_feat_file):
@@ -138,9 +139,11 @@ def interact_stat(prev_items, candi, i2i_dicts, locale):
 
 def feat_extract(input_file, output_file, item_dict, i2i_dicts):
     locale_dict = {"DE": 1, "JP": 2, "UK": 3, "ES": 4, "FR": 5, "IT": 6}
-    candi_df = pd.read_csv(input_file)
     fdout = open(output_file, "w")
-    for index, row in tqdm(candi_df.iterrows(), desc="feat_extract"):
+
+    fd = open(input_file, "r")
+    csv_reader = csv.DictReader(fd, skipinitialspace=True)
+    for row in tqdm(csv_reader, desc="feat_extract"):
         prev_items = row["prev_items"].split(",")
         locale = row["locale"]
         locale_code = locale_dict[locale]
@@ -160,6 +163,7 @@ def feat_extract(input_file, output_file, item_dict, i2i_dicts):
 
         fdout.write(f"{prev_items}\t{locale_code}\t{item_feat_str}\t{session_stat_feat_str}\t{interact_feat_str}\t{label}\n")
     fdout.close()
+    fd.close()
 
 
 if __name__ == "__main__":
