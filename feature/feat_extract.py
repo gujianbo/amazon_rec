@@ -6,32 +6,35 @@ from utils.args import config
 from tqdm.auto import tqdm
 import pandas as pd
 import csv
+import logging
 
+LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(message)s"
+logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FORMAT)
 
 def load_item_feat(item_feat_file):
     import pickle
     item_dict = pickle.load(open(item_feat_file, 'rb'))
-    print("load_item_feat done!")
+    logging.info("load_item_feat done!")
     return item_dict
 
 
 def load_i2i_dicts(path):
     co_global = load_i2i_dict(path+"/covisit/pairs.global.csv")
-    print("load_i2i_dict global done!")
+    logging.info("load_i2i_dict global done!")
     co_DE = load_i2i_dict(path+"/covisit/pairs.DE.csv")
-    print("load_i2i_dict DE done!")
+    logging.info("load_i2i_dict DE done!")
     co_JP = load_i2i_dict(path+"/covisit/pairs.JP.csv")
-    print("load_i2i_dict JP done!")
+    logging.info("load_i2i_dict JP done!")
     co_UK = load_i2i_dict(path+"/covisit/pairs.UK.csv")
-    print("load_i2i_dict UK done!")
+    logging.info("load_i2i_dict UK done!")
     co_ES = load_i2i_dict(path+"/covisit/pairs.ES.csv")
-    print("load_i2i_dict ES done!")
+    logging.info("load_i2i_dict ES done!")
     co_FR = load_i2i_dict(path+"/covisit/pairs.FR.csv")
-    print("load_i2i_dict FR done!")
+    logging.info("load_i2i_dict FR done!")
     co_IT = load_i2i_dict(path+"/covisit/pairs.IT.csv")
-    print("load_i2i_dict IT done!")
+    logging.info("load_i2i_dict IT done!")
     swing = load_i2i_dict(path+"/swing/swing.sim.full", sep="\t")
-    print("load_i2i_dict swing done!")
+    logging.info("load_i2i_dict swing done!")
     return {"co_global": co_global, "co_DE": co_DE, "co_JP": co_JP, "co_UK": co_UK,
             "co_ES": co_ES, "co_FR": co_FR, "co_IT": co_IT, "swing": swing}
 
@@ -138,7 +141,7 @@ def interact_stat(prev_items, candi, i2i_dicts, locale):
 
 
 def feat_extract(input_file, output_file, item_dict, i2i_dicts):
-    print("-----start feat_extract-----")
+    logging.info("-----start feat_extract-----")
     locale_dict = {"DE": 1, "JP": 2, "UK": 3, "ES": 4, "FR": 5, "IT": 6}
     fdout = open(output_file, "w")
 
@@ -168,10 +171,10 @@ def feat_extract(input_file, output_file, item_dict, i2i_dicts):
 
 
 if __name__ == "__main__":
-    print(f"input_file:{config.input_file}")
-    print(f"output_file:{config.output_file}")
-    print(f"item_feat_file:{config.item_feat_file}")
-    print(f"root_path:{config.root_path}")
+    logging.info(f"input_file:{config.input_file}")
+    logging.info(f"output_file:{config.output_file}")
+    logging.info(f"item_feat_file:{config.item_feat_file}")
+    logging.info(f"root_path:{config.root_path}")
     item_dict = load_item_feat(config.item_feat_file)
     i2i_dicts = load_i2i_dicts(config.root_path)
     feat_extract(config.input_file, config.output_file, item_dict, i2i_dicts)
