@@ -161,7 +161,7 @@ def feat_extract(input_file, output_file, item_dict, i2i_dicts):
         interact_feat = interact_stat(prev_items, candi, i2i_dicts, locale)
         interact_feat_str = ','.join([str(item) for item in interact_feat])
 
-        fdout.write(f"{prev_items}\t{locale_code}\t{item_feat_str}\t{session_stat_feat_str}\t{interact_feat_str}\t{label}\n")
+        fdout.write(f"{prev_items}\t{candi}\t{locale_code}\t{item_feat_str}\t{session_stat_feat_str}\t{interact_feat_str}\t{label}\n")
     fdout.close()
     fd.close()
 
