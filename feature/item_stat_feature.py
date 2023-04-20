@@ -37,7 +37,7 @@ def item_feature_stat(input_file, output_file):
     session_pd = pd.read_csv(input_file, sep=",")
     session_pd["prev_items"] = session_pd.apply(get_seq, axis=1)
     session_pd = session_pd.explode("prev_items").reset_index()
-    session_pd.groupby("prev_items").apply(stat)
+    session_pd = session_pd.groupby("prev_items").apply(stat)
     item_feat = session_pd.to_dict()
     import pickle
     with open(output_file, 'wb') as fd:
