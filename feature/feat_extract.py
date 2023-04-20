@@ -166,6 +166,7 @@ if __name__ == "__main__":
     print(f"input_file:{config.input_file}")
     print(f"output_file:{config.output_file}")
     print(f"item_feat_file:{config.item_feat_file}")
+    print(f"root_path:{config.root_path}")
     item_dict = load_item_feat(config.item_feat_file)
     i2i_dicts = load_i2i_dicts(config.root_path)
-    feat_extract(config.input_file, config.output_file)
+    feat_extract(config.input_file, config.output_file, item_dict, i2i_dicts)
