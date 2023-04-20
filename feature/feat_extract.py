@@ -138,6 +138,7 @@ def interact_stat(prev_items, candi, i2i_dicts, locale):
 
 
 def feat_extract(input_file, output_file, item_dict, i2i_dicts):
+    print("-----start feat_extract-----")
     locale_dict = {"DE": 1, "JP": 2, "UK": 3, "ES": 4, "FR": 5, "IT": 6}
     fdout = open(output_file, "w")
 
