@@ -11,7 +11,7 @@ LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(mes
 logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FORMAT)
 
 
-def slice_data(input_file, train_file, test_file, sample_cnt):
+def slice_data(input_file, train_file, test_file, sample_cnt, seed):
     fdout_train = open(train_file, "w")
     fdout_test = open(test_file, "w")
     with open(input_file, "r") as fd:
@@ -24,7 +24,7 @@ def slice_data(input_file, train_file, test_file, sample_cnt):
                 buf.append(line)
                 last_prev_items = prev_items
                 continue
-            hash_val = int(hashlib.md5((last_prev_items + "1234").encode('utf8')).hexdigest()[0:10], 16) % sample_cnt
+            hash_val = int(hashlib.md5((last_prev_items + str(seed)).encode('utf8')).hexdigest()[0:10], 16) % sample_cnt
             for item in buf:
                 if hash_val == 0:
                     fdout_test.write(item+"\n")
@@ -33,7 +33,7 @@ def slice_data(input_file, train_file, test_file, sample_cnt):
             buf = []
             buf.append(line)
             last_prev_items = prev_items
-        hash_val = int(hashlib.md5((last_prev_items + "1234").encode('utf8')).hexdigest()[0:10], 16) % sample_cnt
+        hash_val = int(hashlib.md5((last_prev_items + str(seed)).encode('utf8')).hexdigest()[0:10], 16) % sample_cnt
         for item in buf:
             if hash_val == 0:
                 fdout_test.write(item + "\n")
@@ -46,4 +46,5 @@ if __name__ == "__main__":
     logging.info(f"train_file:{config.train_file}")
     logging.info(f"test_file:{config.test_file}")
     logging.info(f"sample_cnt:{config.sample_cnt}")
+    logging.info(f"seed:{config.seed}")
     slice_data(config.input_file, config.train_file, config.test_file, config.sample_cnt)
