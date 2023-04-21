@@ -47,4 +47,4 @@ if __name__ == "__main__":
     logging.info(f"test_file:{config.test_file}")
     logging.info(f"sample_cnt:{config.sample_cnt}")
     logging.info(f"seed:{config.seed}")
-    slice_data(config.input_file, config.train_file, config.test_file, config.sample_cnt)
+    slice_data(config.input_file, config.train_file, config.test_file, config.sample_cnt, config.seed)

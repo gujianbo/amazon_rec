@@ -14,12 +14,11 @@ parser.add_argument("--item_feat_file", type=str, default='', help="item_feat_fi
 parser.add_argument("--root_path", type=str, default='', help="root_path")
 parser.add_argument("--log_file", type=str, default='', help="log_file")
 parser.add_argument("--country", type=str, default='', help="country")
-parser.add_argument('--seed', type=int, default=42)
+parser.add_argument('--seed', type=int, default=1234)
 parser.add_argument('--debug', type=int, default=0)
 parser.add_argument('--topk', type=int, default=50)
 parser.add_argument('--single_topk', type=int, default=30)
 parser.add_argument('--sample_cnt', type=int, default=5)
-parser.add_argument('--seed', type=int, default=1234)
 
 parser.add_argument('--drop_no_hit', type=int, default=1)
 parser.add_argument('--neg_sample_rate', type=int, default=20)
