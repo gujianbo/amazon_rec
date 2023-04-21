@@ -43,7 +43,7 @@ def slice_data(input_file, train_file, test_file, sample_cnt):
 
 if __name__ == "__main__":
     logging.info(f"input_file:{config.input_file}")
-    logging.info(f"output_file:{config.train_file}")
-    logging.info(f"output_file:{config.test_file}")
+    logging.info(f"train_file:{config.train_file}")
+    logging.info(f"test_file:{config.test_file}")
     logging.info(f"sample_cnt:{config.sample_cnt}")
     slice_data(config.input_file, config.train_file, config.test_file, config.sample_cnt)
