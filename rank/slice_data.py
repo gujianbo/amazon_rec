@@ -17,7 +17,7 @@ def slice_data(input_file, train_file, test_file, sample_cnt):
     with open(input_file, "r") as fd:
         last_prev_items = ""
         buf = []
-        for line in fd:
+        for line in tqdm(fd, ):
             line = line.strip()
             (prev_items, candi, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str, label) = line.split("\t")
             if last_prev_items == "" or prev_items == last_prev_items:
@@ -30,7 +30,15 @@ def slice_data(input_file, train_file, test_file, sample_cnt):
                     fdout_test.write(item+"\n")
                 else:
                     fdout_train.write(item+"\n")
+            buf = []
+            buf.append(line)
             last_prev_items = prev_items
+        hash_val = int(hashlib.md5((last_prev_items + "1234").encode('utf8')).hexdigest()[0:10], 16) % sample_cnt
+        for item in buf:
+            if hash_val == 0:
+                fdout_test.write(item + "\n")
+            else:
+                fdout_train.write(item + "\n")
 
 
 if __name__ == "__main__":
