@@ -14,8 +14,8 @@ logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FO
 
 
 def train_gbm(train_file, test_file, model_file):
-    train_x = np.array([])
-    train_y = np.array([])
+    train_x_arr = []
+    train_y_arr = []
     with open(train_file, "r") as fd:
         for line in tqdm(fd, desc="load train"):
             line = line.strip()
@@ -26,12 +26,16 @@ def train_gbm(train_file, test_file, model_file):
             feat += [float(item) for item in item_feat_str.split(",")]
             feat += [float(item) for item in session_stat_feat_str.split(",")]
             feat += [float(item) for item in interact_feat_str.split(",")]
-            train_x = np.append(train_x, np.array(feat))
-            train_y = np.append(train_y, np.array([float(label)]))
+            train_x_arr.append(feat)
+            train_y_arr.append([float(label)])
+    train_x = np.array(train_x_arr)
+    train_y = np.array(train_y_arr)
     logging.info(f"train_x.shape:{train_x.shape}")
+    del train_x_arr, train_y_arr
+    gc.collect()
 
-    test_x = np.array([])
-    test_y = np.array([])
+    test_x_arr = []
+    test_y_arr = []
     with open(test_file, "r") as fd:
         for line in tqdm(fd, desc="load test"):
             line = line.strip()
@@ -42,9 +46,14 @@ def train_gbm(train_file, test_file, model_file):
             feat += [float(item) for item in item_feat_str.split(",")]
             feat += [float(item) for item in session_stat_feat_str.split(",")]
             feat += [float(item) for item in interact_feat_str.split(",")]
-            test_x = np.append(test_x, np.array(feat))
-            test_y = np.append(test_y, np.array([float(label)]))
+            test_x_arr.append(feat)
+            test_y_arr.append([float(label)])
+    test_x = np.array(test_x_arr)
+    test_y = np.array(test_y_arr)
     logging.info(f"test_x.shape:{test_x.shape}")
+    del test_x_arr, test_y_arr
+    gc.collect()
+
     train_data = lgb.Dataset(data=train_x, label=train_y)
     test_data = lgb.Dataset(data=test_x, label=test_y)
     num_round = 20
