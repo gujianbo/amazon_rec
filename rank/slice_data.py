@@ -12,26 +12,57 @@ logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FO
 
 
 def slice_data(input_file, train_file, test_file, sample_cnt, seed):
-    fdout_train = open(train_file, "w")
-    fdout_test = open(test_file, "w")
+    fdout_train = open(train_file+".large.1", "w")
+    fdout_test = open(test_file+".large.1", "w")
+    cnt_train = 0
+    cnt_test = 0
+    train_idx = 1
+    test_idx = 1
+    tp = "large"
     with open(input_file, "r") as fd:
         last_prev_items = ""
         buf = []
         for line in tqdm(fd, ):
             line = line.strip()
             (prev_items, candi, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str, label) = line.split("\t")
+            locale_code = int(locale_code)
             if last_prev_items == "" or prev_items == last_prev_items:
-                buf.append(line)
+                buf.append([line, locale_code])
                 last_prev_items = prev_items
                 continue
+            # 确定是train还是test
             hash_val = int(hashlib.md5((last_prev_items + str(seed)).encode('utf8')).hexdigest()[0:10], 16) % sample_cnt
-            for item in buf:
+            for (item, locale_code) in buf:
                 if hash_val == 0:
+                    if tp == "large" and locale_code in [4, 5, 6]:
+                        tp = "small"
+                        test_idx = 1
+                        file_name = test_file+"."+tp+"."+str(test_idx)
+                        fdout_test.close()
+                        fdout_test = open(file_name, "w")
+                    elif cnt_test >= 1000000:
+                        test_idx += 1
+                        file_name = test_file + "." + tp + "." + str(test_idx)
+                        fdout_test.close()
+                        fdout_test = open(file_name, "w")
                     fdout_test.write(item+"\n")
+                    cnt_test += 1
                 else:
+                    if tp == "large" and locale_code in [4, 5, 6]:
+                        tp = "small"
+                        train_idx = 1
+                        file_name = train_file + "." + tp + "." + str(train_idx)
+                        fdout_train.close()
+                        fdout_train = open(file_name, "w")
+                    elif cnt_train >= 3000000:
+                        train_idx += 1
+                        file_name = train_file + "." + tp + "." + str(train_idx)
+                        fdout_train.close()
+                        fdout_train = open(file_name, "w")
                     fdout_train.write(item+"\n")
+                    cnt_test += 1
             buf = []
-            buf.append(line)
+            buf.append([line, locale_code])
             last_prev_items = prev_items
         hash_val = int(hashlib.md5((last_prev_items + str(seed)).encode('utf8')).hexdigest()[0:10], 16) % sample_cnt
         for item in buf:
@@ -39,6 +70,8 @@ def slice_data(input_file, train_file, test_file, sample_cnt, seed):
                 fdout_test.write(item + "\n")
             else:
                 fdout_train.write(item + "\n")
+        fdout_test.close()
+        fdout_train.close()
 
 
 if __name__ == "__main__":
