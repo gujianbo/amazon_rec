@@ -70,7 +70,7 @@ def slice_data(input_file, train_file, test_file, sample_cnt, seed):
             buf.append([line, locale_code])
             last_prev_items = prev_items
         hash_val = int(hashlib.md5((last_prev_items + str(seed)).encode('utf8')).hexdigest()[0:10], 16) % sample_cnt
-        for item in buf:
+        for (item, locale_code) in buf:
             if hash_val == 0:
                 fdout_test.write(item + "\n")
             else:
