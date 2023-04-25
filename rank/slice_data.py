@@ -40,11 +40,13 @@ def slice_data(input_file, train_file, test_file, sample_cnt, seed):
                         file_name = test_file+"."+tp+"."+str(test_idx)
                         fdout_test.close()
                         fdout_test = open(file_name, "w")
+                        cnt_test = 0
                     elif cnt_test >= 1000000:
                         test_idx += 1
                         file_name = test_file + "." + tp + "." + str(test_idx)
                         fdout_test.close()
                         fdout_test = open(file_name, "w")
+                        cnt_test = 0
                     fdout_test.write(item+"\n")
                     cnt_test += 1
                 else:
@@ -54,11 +56,13 @@ def slice_data(input_file, train_file, test_file, sample_cnt, seed):
                         file_name = train_file + "." + tp + "." + str(train_idx)
                         fdout_train.close()
                         fdout_train = open(file_name, "w")
+                        cnt_train = 0
                     elif cnt_train >= 3000000:
                         train_idx += 1
                         file_name = train_file + "." + tp + "." + str(train_idx)
                         fdout_train.close()
                         fdout_train = open(file_name, "w")
+                        cnt_train = 0
                     fdout_train.write(item+"\n")
                     cnt_test += 1
             buf = []
