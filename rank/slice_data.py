@@ -18,8 +18,8 @@ def slice_data(input_file, train_file, test_file, sample_cnt, seed):
     cnt_test = 0
     train_idx = 1
     test_idx = 1
-    train_tp = "large"
-    test_tp = "large"
+    train_local = "1"
+    test_local = "1"
     with open(input_file, "r") as fd:
         last_prev_items = ""
         buf = []
@@ -35,32 +35,32 @@ def slice_data(input_file, train_file, test_file, sample_cnt, seed):
             hash_val = int(hashlib.md5((last_prev_items + str(seed)).encode('utf8')).hexdigest()[0:10], 16) % sample_cnt
             for (item, locale_code) in buf:
                 if hash_val == 0:
-                    if test_tp == "large" and locale_code in [4, 5, 6]:
-                        test_tp = "small"
+                    if test_local != locale_code:
+                        test_local = locale_code
                         test_idx = 1
-                        file_name = test_file+"."+test_tp+"."+str(test_idx)
+                        file_name = test_file+"."+test_local+"."+str(test_idx)
                         fdout_test.close()
                         fdout_test = open(file_name, "w")
                         cnt_test = 0
                     elif cnt_test >= 1000000:
                         test_idx += 1
-                        file_name = test_file + "." + test_tp + "." + str(test_idx)
+                        file_name = test_file + "." + test_local + "." + str(test_idx)
                         fdout_test.close()
                         fdout_test = open(file_name, "w")
                         cnt_test = 0
                     fdout_test.write(item+"\n")
                     cnt_test += 1
                 else:
-                    if train_tp == "large" and locale_code in [4, 5, 6]:
-                        train_tp = "small"
+                    if train_local != locale_code:
+                        train_local = locale_code
                         train_idx = 1
-                        file_name = train_file + "." + train_tp + "." + str(train_idx)
+                        file_name = train_file + "." + train_local + "." + str(train_idx)
                         fdout_train.close()
                         fdout_train = open(file_name, "w")
                         cnt_train = 0
                     elif cnt_train >= 3000000:
                         train_idx += 1
-                        file_name = train_file + "." + train_tp + "." + str(train_idx)
+                        file_name = train_file + "." + train_local + "." + str(train_idx)
                         fdout_train.close()
                         fdout_train = open(file_name, "w")
                         cnt_train = 0
