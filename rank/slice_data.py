@@ -12,8 +12,8 @@ logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FO
 
 
 def slice_data(input_file, train_file, test_file, sample_cnt, seed):
-    fdout_train = open(train_file+".large.1", "w")
-    fdout_test = open(test_file+".large.1", "w")
+    fdout_train = open(train_file+".1.1", "w")
+    fdout_test = open(test_file+".1.1", "w")
     cnt_train = 0
     cnt_test = 0
     train_idx = 1
