@@ -26,7 +26,7 @@ def slice_data(input_file, train_file, test_file, sample_cnt, seed):
         for line in tqdm(fd, ):
             line = line.strip()
             (prev_items, candi, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str, label) = line.split("\t")
-            locale_code = int(locale_code)
+            locale_code = locale_code
             if last_prev_items == "" or prev_items == last_prev_items:
                 buf.append([line, locale_code])
                 last_prev_items = prev_items
