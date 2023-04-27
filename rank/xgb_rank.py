@@ -79,14 +79,13 @@ def train_gbm(train_file, test_file, model_file):
 
     param = {
         'learning_rate': 0.1,
-        'max_depth': 5,
-        'num_leaves': 31,
-        'feature_fraction': 0.8,
+        'max_depth': 6,
         'num_trees': 100,
         'objective': 'binary:logistic',
-        'metric': 'auc',
+        'eval_metric': 'auc',
         'subsample': 0.7,
-        'scale_pos_weight': 20
+        'scale_pos_weight': 20,
+        'colsample_bytree': 0.8
     }
     model = xgboost.train(param,
                       dtrain=train_data,
