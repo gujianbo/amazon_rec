@@ -24,6 +24,9 @@ parser.add_argument('--sample_cnt', type=int, default=5)
 parser.add_argument('--drop_no_hit', type=int, default=1)
 parser.add_argument('--neg_sample_rate', type=int, default=20)
 
+# xgboost
+parser.add_argument('--scale_pos_weight', type=int, default=20)
+
 config = parser.parse_args()
 
 config._PAD_ = 0

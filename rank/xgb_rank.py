@@ -84,15 +84,15 @@ def train_gbm(train_file, test_file, model_file):
         'objective': 'binary:logistic',
         'eval_metric': 'auc',
         'subsample': 0.7,
-        'scale_pos_weight': 20,
+        'scale_pos_weight': config.scale_pos_weight,
         'colsample_bytree': 0.8
     }
     model = xgboost.train(param,
                       dtrain=train_data,
                       evals=[(train_data, 'train'), (test_data, 'valid')],
-                      num_boost_round=10_000,
+                      num_boost_round=1000,
                       early_stopping_rounds=200,
-                      verbose_eval=100)
+                      verbose_eval=10)
     model.save_model(model_file)
 
     dd = model.get_score(importance_type='weight')
