@@ -25,7 +25,7 @@ def slice_data(input_file, train_file, test_file, sample_cnt, seed):
         fd_dict['test.'+str(local_code+1)+'.1'] = open(test_file+'.'+str(local_code+1)+'.1', "w")
     for local_code in range(6):
         for i in range(1, sample_cnt):
-            fd_dict['train.'+str(local_code+1)+'.'+i] = open(train_file+'.'+str(local_code+1)+'.'+i, "w")
+            fd_dict['train.'+str(local_code+1)+'.'+str(i)] = open(train_file+'.'+str(local_code+1)+'.'+str(i), "w")
     with open(input_file, "r") as fd:
         last_prev_items = ""
         buf = []
@@ -43,7 +43,7 @@ def slice_data(input_file, train_file, test_file, sample_cnt, seed):
                 if hash_val == 0:
                     key = "test."+locale_code+".1"
                 else:
-                    key = "train."+locale_code+"."+hash_val
+                    key = "train."+locale_code+"."+str(hash_val)
                 fd = fd_dict[key]
                 fd.write(item+"\n")
 
@@ -92,7 +92,7 @@ def slice_data(input_file, train_file, test_file, sample_cnt, seed):
             if hash_val == 0:
                 key = "test." + locale_code + ".1"
             else:
-                key = "train." + locale_code + "." + hash_val
+                key = "train." + locale_code + "." + str(hash_val)
             fd = fd_dict[key]
             fd.write(item + "\n")
 
