@@ -22,10 +22,10 @@ def slice_data(input_file, train_file, test_file, sample_cnt, seed):
     # test_local = "1"
     fd_dict = dict()
     for local_code in range(6):
-        fd_dict['test.'+str(local_code+1)+'.1'] = open(test_file+'.'+str(local_code+1)+'.1')
+        fd_dict['test.'+str(local_code+1)+'.1'] = open(test_file+'.'+str(local_code+1)+'.1', "w")
     for local_code in range(6):
         for i in range(1, sample_cnt):
-            fd_dict['train.'+str(local_code+1)+'.'+i] = open(train_file+'.'+str(local_code+1)+'.'+i)
+            fd_dict['train.'+str(local_code+1)+'.'+i] = open(train_file+'.'+str(local_code+1)+'.'+i, "w")
     with open(input_file, "r") as fd:
         last_prev_items = ""
         buf = []
