@@ -16,7 +16,7 @@ def eval(input_file):
     map_val = 0
     sum = 0
     with open(input_file, "r") as fd:
-        for line in fd:
+        for line in tqdm(fd, desc="eval"):
             (prev_items, candi, locale_code, label, pred) = line.strip().split("\t")
             if last_prev_items != "" and prev_items != last_prev_items:
                 sorted_buf = sorted(buf, key=lambda x: x[2], reverse=True)

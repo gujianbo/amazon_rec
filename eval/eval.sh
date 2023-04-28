@@ -10,3 +10,7 @@ python -u recall_eval.py --input_file ${root}/data/sessions_train.csv --i2i_file
 root="/data/users/jianbogu/amazon/"
 python -u recall_eval.py --input_file ${root}/data/sessions_train.csv --i2i_file ${root}/covisit/co.global.txt \
   --log_file ${root}/log/eval1.log
+
+
+nohup python -u eval_rank_map.py --input_file ${root}/cand/candi_feat_100.test.pred \
+  --log_file ${root}/log/eval_rank_map.log > log 2>&1 &
