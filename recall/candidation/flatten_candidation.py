@@ -76,4 +76,4 @@ if __name__ == "__main__":
     logging.info(f"drop_no_hit:{config.drop_no_hit}")
     logging.info(f"neg_sample_rate:{config.neg_sample_rate}")
 
-    flatten(config.input_file, config.output_file, config.drop_no_hit == 1, config.neg_sample_rate)
+    flatten(config.input_file, config.output_file, config.drop_no_hit == 1, config.neg_sample_rate, config.if_hash_sample)

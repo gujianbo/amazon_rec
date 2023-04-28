@@ -26,3 +26,9 @@ nohup python -u flatten_candidation.py --input_file ${root}/cand/candi_100_top10
   --output_file ${root}/cand/candi_100_top100.flatten.csv \
   --log_file ${root}/log/flatten.log > flatten.log 2>&1 &
 
+# 测试
+nohup python -u flatten_candidation.py --input_file ${root}/cand/candi_100_top100.csv \
+  --output_file ${root}/cand/candi_100_top100.flatten_10.csv \
+  --log_file ${root}/log/flatten.log --neg_sample_rate 0 \
+  --if_hash_sample 1 > flatten.log 2>&1 &
+
