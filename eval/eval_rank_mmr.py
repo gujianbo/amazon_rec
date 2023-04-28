@@ -27,7 +27,7 @@ def eval(input_file):
                     tmp_candi, tmp_label, tmp_pred = sorted_buf[i]
                     if tmp_label == 1.0:
                         mmr_val += 1.0/(i+1.0)
-                        target = candi
+                        target = tmp_candi
                         break
                 logging.info(f"{last_prev_items}\t{items}\t{target}")
                 sum += 1
@@ -40,8 +40,9 @@ def eval(input_file):
     items = ",".join([item[0] for item in sorted_buf])
     for i in range(len(sorted_buf)):
         tmp_candi, tmp_label, tmp_pred = sorted_buf[i]
-        if label == 1:
+        if tmp_label == 1:
             mmr_val += 1.0 / (i + 1.0)
+            target = tmp_candi
             break
     logging.info(f"{last_prev_items}\t{items}\t{target}")
     sum += 1
