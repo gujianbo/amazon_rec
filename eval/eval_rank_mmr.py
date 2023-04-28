@@ -13,7 +13,7 @@ logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FO
 def eval(input_file):
     buf = []
     last_prev_items = ""
-    map_val = 0
+    mmr_val = 0
     sum = 0
     with open(input_file, "r") as fd:
         for line in tqdm(fd, desc="eval"):
@@ -23,7 +23,7 @@ def eval(input_file):
                 for i in range(len(sorted_buf)):
                     candi, label, pred = sorted_buf[i]
                     if label == 1.0:
-                        map_val += 1.0/(i+1)
+                        mmr_val += 1.0/(i+1.0)
                         break
                 sum += 1
                 buf = []
@@ -35,13 +35,13 @@ def eval(input_file):
     for i in range(len(sorted_buf)):
         candi, label, pred = sorted_buf[i]
         if label == 1:
-            map_val += 1.0 / (i + 1)
+            mmr_val += 1.0 / (i + 1.0)
             break
     sum += 1
-    map_avg = map_val/sum
-    logging.info(f"map_val value:{map_val}")
+    mmr_avg = mmr_val/sum
+    logging.info(f"mmr_val value:{mmr_val}")
     logging.info(f"sum:{sum}")
-    logging.info(f"MAP value:{map_avg}")
+    logging.info(f"MMR value:{mmr_avg}")
 
 
 if __name__ == "__main__":
