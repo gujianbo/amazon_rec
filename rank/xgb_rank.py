@@ -82,7 +82,7 @@ def train_gbm(train_file, test_file, model_file):
     param = {
         'learning_rate': 0.1,
         'max_depth': 6,
-        'num_trees': 100,
+        # 'num_trees': 100,
         'objective': 'binary:logistic',
         'eval_metric': 'auc',
         'subsample': 0.7,
