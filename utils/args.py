@@ -26,6 +26,7 @@ parser.add_argument('--neg_sample_rate', type=int, default=20)
 
 # xgboost
 parser.add_argument('--scale_pos_weight', type=int, default=20)
+parser.add_argument('--num_boost_round', type=int, default=1000)
 
 config = parser.parse_args()
 

@@ -92,7 +92,7 @@ def train_gbm(train_file, test_file, model_file):
     model = xgboost.train(param,
                       dtrain=train_data,
                       evals=[(train_data, 'train'), (test_data, 'valid')],
-                      num_boost_round=1000,
+                      num_boost_round=config.num_boost_round,
                       early_stopping_rounds=200,
                       verbose_eval=10)
     model.save_model(model_file)
