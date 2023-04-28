@@ -7,6 +7,7 @@ from pathlib import Path
 import pandas as pd
 import logging
 import random
+import hashlib
 
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(message)s"
 logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FORMAT)
@@ -34,11 +35,19 @@ def tag(x):
         return 0
 
 
-def flatten(input_file, output_file, drop_no_hit, rate=0):
+def hash_code(x):
+    return int(hashlib.md5((x.prev_items + str(config.seed)).encode('utf8')).hexdigest()[0:10], 16) % config.sample_cnt
+
+
+def flatten(input_file, output_file, drop_no_hit, rate=0, if_hash_sample=0):
     df = pd.read_csv(input_file).drop(['Unnamed: 0'], axis=1)
     logging.info("load csv done!")
+    if if_hash_sample == 1:
+        df["hash"] = df.apply(hash_code, axis=1)
+        df = df.loc[df.hash == 19]
+        logging.info("hash sample done!")
     # 去除candidates没命中的行
-    if drop_no_hit:
+    if drop_no_hit and if_hash_sample == 0:
         df["hit"] = df.apply(candi_in, axis=1)
         df = df.loc[df.hit == True].drop(['hit'], axis=1)
         logging.info("drop no hit done!")

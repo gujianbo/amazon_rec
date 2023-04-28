@@ -59,12 +59,15 @@ def load_recall(root_path):
     return recall_dict
 
 
-def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, single_topk, output_file):
+def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, single_topk, output_file, is_train=1):
     session_pd = pd.read_csv(input_file, sep=",")
     out_dict = {"prev_items": [], "next_item": [], "locale": [], "candi": []}
     for index, row in tqdm(session_pd.iterrows(), desc="gen_item_pair"):
         session = [sess.strip().strip("[").strip("]").strip("'") for sess in row["prev_items"].split()]
-        next_item = row["next_item"]
+        if is_train == 1:
+            next_item = row["next_item"]
+        else:
+            next_item = ""
         locale = row["locale"]
         unique_ids = list(dict.fromkeys(session[::-1]))
 
@@ -104,6 +107,7 @@ def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, single_topk, ou
     out_pd = pd.DataFrame(out_dict)
     out_pd.to_csv(output_file)
 
+
 if __name__ == "__main__":
     logging.info("input_file:" + config.input_file)
     logging.info("output_file:" + config.output_file)
@@ -116,4 +120,5 @@ if __name__ == "__main__":
     recall_dict = load_recall(config.root_path)
     hot_dict = load_hot(config.root_path)
 
-    get_candi(config.input_file, recall_dict, pro_dict, hot_dict, config.topk, config.single_topk, config.output_file)
+    get_candi(config.input_file, recall_dict, pro_dict, hot_dict, config.topk, config.single_topk, config.output_file,
+              config.is_train)
