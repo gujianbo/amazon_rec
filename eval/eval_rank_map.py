@@ -39,6 +39,8 @@ def eval(input_file):
             break
     sum += 1
     map_avg = map_val/sum
+    logging.info(f"map_val value:{map_val}")
+    logging.info(f"sum:{sum}")
     logging.info(f"MAP value:{map_avg}")
 
 
