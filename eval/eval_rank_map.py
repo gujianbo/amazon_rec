@@ -22,12 +22,12 @@ def eval(input_file):
                 sorted_buf = sorted(buf, key=lambda x: x[2], reverse=True)
                 for i in range(len(sorted_buf)):
                     candi, label, pred = sorted_buf[i]
-                    if label == 1:
+                    if label == 1.0:
                         map_val += 1.0/(i+1)
                         break
                 sum += 1
                 buf = []
-            buf.append([candi, int(label), float(pred)])
+            buf.append([candi, float(label), float(pred)])
 
             last_prev_items = prev_items
 
