@@ -20,7 +20,8 @@ def eval(input_file):
             (prev_items, candi, locale_code, label, pred) = line.strip().split("\t")
             if last_prev_items != "" and prev_items != last_prev_items:
                 sorted_buf = sorted(buf, key=lambda x: x[2], reverse=True)
-                items = [item[0] for item in sorted_buf]
+                print(sorted_buf)
+                items = ",".join([item[0] for item in sorted_buf])
                 target = ""
                 for i in range(len(sorted_buf)):
                     candi, label, pred = sorted_buf[i]
@@ -36,6 +37,7 @@ def eval(input_file):
             last_prev_items = prev_items
 
     sorted_buf = sorted(buf, key=lambda x: x[2], reverse=True)
+    items = ",".join([item[0] for item in sorted_buf])
     for i in range(len(sorted_buf)):
         candi, label, pred = sorted_buf[i]
         if label == 1:
