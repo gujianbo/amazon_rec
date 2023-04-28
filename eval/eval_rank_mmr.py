@@ -20,11 +20,15 @@ def eval(input_file):
             (prev_items, candi, locale_code, label, pred) = line.strip().split("\t")
             if last_prev_items != "" and prev_items != last_prev_items:
                 sorted_buf = sorted(buf, key=lambda x: x[2], reverse=True)
+                items = [item[0] for item in sorted_buf]
+                target = ""
                 for i in range(len(sorted_buf)):
                     candi, label, pred = sorted_buf[i]
                     if label == 1.0:
                         mmr_val += 1.0/(i+1.0)
+                        target = candi
                         break
+                logging.info(f"{last_prev_items}\t{items}\t{target}")
                 sum += 1
                 buf = []
             buf.append([candi, float(label), float(pred)])
@@ -37,6 +41,7 @@ def eval(input_file):
         if label == 1:
             mmr_val += 1.0 / (i + 1.0)
             break
+    logging.info(f"{last_prev_items}\t{items}\t{target}")
     sum += 1
     mmr_avg = mmr_val/sum
     logging.info(f"mmr_val value:{mmr_val}")
