@@ -7,7 +7,13 @@ nohup python -u item_stat_feature.py --input_file ${root}/data/sessions_train.cs
   --output_file ${root}/feat/item_feat.dict > log 2>&1 &
 
 
-nohup python -u feat_extract.py --input_file ${root}/candi/candi_100_top100.flatten.csv \
-  --output_file ${root}/candi/candi_feat \
+nohup python -u feat_extract.py --input_file ${root}/cand/candi_100_top100.flatten.csv \
+  --output_file ${root}/cand/candi_feat \
+  --item_feat_file ${root}/feat/item_feat.dict \
+  --root_path ${root} > log 2>&1 &
+
+# 测试数据
+nohup python -u feat_extract.py --input_file ${root}/cand/candi_100_top100.test.flatten.csv \
+  --output_file ${root}/cand/candi_feat_100.test \
   --item_feat_file ${root}/feat/item_feat.dict \
   --root_path ${root} > log 2>&1 &
