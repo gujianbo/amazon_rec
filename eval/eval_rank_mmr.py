@@ -24,8 +24,8 @@ def eval(input_file):
                 items = ",".join([item[0] for item in sorted_buf])
                 target = ""
                 for i in range(len(sorted_buf)):
-                    candi, label, pred = sorted_buf[i]
-                    if label == 1.0:
+                    tmp_candi, tmp_label, tmp_pred = sorted_buf[i]
+                    if tmp_label == 1.0:
                         mmr_val += 1.0/(i+1.0)
                         target = candi
                         break
@@ -39,7 +39,7 @@ def eval(input_file):
     sorted_buf = sorted(buf, key=lambda x: x[2], reverse=True)
     items = ",".join([item[0] for item in sorted_buf])
     for i in range(len(sorted_buf)):
-        candi, label, pred = sorted_buf[i]
+        tmp_candi, tmp_label, tmp_pred = sorted_buf[i]
         if label == 1:
             mmr_val += 1.0 / (i + 1.0)
             break
