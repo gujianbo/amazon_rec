@@ -23,28 +23,30 @@ def load_product(product_file):
 
 def load_hot(root_path):
     import pickle
-    hot_dict = pickle.load(open(f'{root_path}/hot.dict', 'rb'))
+    hot_dict = pickle.load(open(f'{root_path}/hot_pre.dict', 'rb'))
     print("load_hot done!")
     return hot_dict
 
 
 def load_recall(root_path):
+    covi = "covisit_pre"
+    sw = "swing_pre"
     import pickle
-    co_global = pickle.load(open(f'{root_path}/covisit/co.global.dict', 'rb'))
+    co_global = pickle.load(open(f'{root_path}/{covi}/co.global.dict', 'rb'))
     print("load_recall global done!")
-    co_de = pickle.load(open(f'{root_path}/covisit/co.DE.dict', 'rb'))
+    co_de = pickle.load(open(f'{root_path}/{covi}/co.DE.dict', 'rb'))
     print("load_recall DE done!")
-    co_jp = pickle.load(open(f'{root_path}/covisit/co.JP.dict', 'rb'))
+    co_jp = pickle.load(open(f'{root_path}/{covi}/co.JP.dict', 'rb'))
     print("load_recall JP done!")
-    co_uk = pickle.load(open(f'{root_path}/covisit/co.UK.dict', 'rb'))
+    co_uk = pickle.load(open(f'{root_path}/{covi}/co.UK.dict', 'rb'))
     print("load_recall UK done!")
-    co_it = pickle.load(open(f'{root_path}/covisit/co.IT.dict', 'rb'))
+    co_it = pickle.load(open(f'{root_path}/{covi}/co.IT.dict', 'rb'))
     print("load_recall IT done!")
-    co_es = pickle.load(open(f'{root_path}/covisit/co.ES.dict', 'rb'))
+    co_es = pickle.load(open(f'{root_path}/{covi}/co.ES.dict', 'rb'))
     print("load_recall ES done!")
-    co_fr = pickle.load(open(f'{root_path}/covisit/co.FR.dict', 'rb'))
+    co_fr = pickle.load(open(f'{root_path}/{covi}/co.FR.dict', 'rb'))
     print("load_recall FR done!")
-    swing = pickle.load(open(f'{root_path}/swing/swing.sim', 'rb'))
+    swing = pickle.load(open(f'{root_path}/{sw}/swing.sim', 'rb'))
     print("load_recall swing done!")
 
     recall_dict = dict()
