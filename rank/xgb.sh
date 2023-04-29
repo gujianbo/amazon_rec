@@ -3,7 +3,7 @@
 root=$1
 echo ${root}
 
-nohup python -u slice_data.py --input_file ${root}/cand/candi_feat_10 \
+nohup python -u slice_data.py --input_file ${root}/cand/candi_feat.pre \
   --train_file ${root}/train_data/train --test_file ${root}/train_data/test \
   --sample_cnt 20 > log 2>&1 &
 

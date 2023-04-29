@@ -67,8 +67,11 @@ class Iterator(xgboost.DataIter):
 
 def train_gbm(train_file, test_file, model_file):
     train_files = [train_file+".1.1", train_file+".1.2", train_file+".1.3", train_file+".1.4", train_file+".1.5",
+                   train_file+".1.6", train_file+".1.7", train_file+".1.8", train_file+".1.9", train_file+".1.10",
                    train_file+".2.1", train_file+".2.2", train_file+".2.3", train_file+".2.4", train_file+".2.5",
-                   train_file+".3.1", train_file+".3.2", train_file+".3.3", train_file+".3.4", train_file+".3.5"]
+                   train_file+".2.6", train_file+".2.7", train_file+".2.8", train_file+".2.9", train_file+".2.10",
+                   train_file+".3.1", train_file+".3.2", train_file+".3.3", train_file+".3.4", train_file+".3.5",
+                   train_file+".3.6", train_file+".3.7", train_file+".3.8", train_file+".3.9", train_file+".3.10"]
     test_files = [test_file+".1.1", test_file+".2.1", test_file+".3.1"]
     logging.info(f"train_files:{train_files}")
     logging.info(f"test_files:{test_files}")
