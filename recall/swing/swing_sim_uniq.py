@@ -42,7 +42,7 @@ def output_sim_file(item_sim_dict, out_path):
     import pickle
     with open(out_path, 'wb') as fd:
         pickle.dump(sim_dict, fd)
-    fd.close()
+    # fd.close()
 
 
 if __name__ == "__main__":
