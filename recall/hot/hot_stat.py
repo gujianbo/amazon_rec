@@ -20,7 +20,7 @@ def stat(input_file, output_file, topk):
         session = [sess.strip().strip("[").strip("]").strip("'") for sess in row["prev_items"].split()]
         next_item = row["next_item"]
         seq_set = set(session)
-        seq_set.add(next_item)
+        # seq_set.add(next_item)
         for item in seq_set:
             if locale not in hot_dict:
                 hot_dict[locale] = Counter()

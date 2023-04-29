@@ -9,7 +9,7 @@ echo ${out_folder}
 
 
 # 生成item pair
-nohup python -u co_gen_item_pair.py --input_file ${root}/${raw_folder}/sessions_train.csv \
+nohup python -u co_gen_item_pair.py --input_file ${root}/data/sessions_train.csv \
   --output_file ${root}/${out_folder}/pairs.${cnty}.csv \
   --country ${cnty} \
   --log_file ${root}/log/co_pair.log > co.log 2>&1 &

@@ -28,8 +28,8 @@ nohup python -u swing_sim_calc.py --output_file ${root}/${out_folder}/swing.sim 
   --log_file ${root}/log/swing_sim.log > log 2>&1 &
 
 # 对计算的相似度进行过滤，保留每个topk
-python -u swing_sim_uniq.py --output_file ${root}/${out_folder}/swing.sim \
-  --log_file ${root}/log/swing_sim.log
+nohup python -u swing_sim_uniq.py --output_file ${root}/${out_folder}/swing.sim \
+  --log_file ${root}/log/swing_sim.log > log 2>&1 &
 
 
 
