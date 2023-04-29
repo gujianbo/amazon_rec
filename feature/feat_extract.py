@@ -19,21 +19,23 @@ def load_item_feat(item_feat_file):
 
 
 def load_i2i_dicts(path):
-    co_global = load_i2i_dict(path+"/covisit/pairs.global.csv")
+    covi = "covisit_pre"
+    sw = "swing_pre"
+    co_global = load_i2i_dict(path+f"/{covi}/pairs.global.csv")
     logging.info("load_i2i_dict global done!")
-    co_DE = load_i2i_dict(path+"/covisit/pairs.DE.csv")
+    co_DE = load_i2i_dict(path+f"/{covi}/pairs.DE.csv")
     logging.info("load_i2i_dict DE done!")
-    co_JP = load_i2i_dict(path+"/covisit/pairs.JP.csv")
+    co_JP = load_i2i_dict(path+f"/{covi}/pairs.JP.csv")
     logging.info("load_i2i_dict JP done!")
-    co_UK = load_i2i_dict(path+"/covisit/pairs.UK.csv")
+    co_UK = load_i2i_dict(path+f"/{covi}/pairs.UK.csv")
     logging.info("load_i2i_dict UK done!")
-    co_ES = load_i2i_dict(path+"/covisit/pairs.ES.csv")
+    co_ES = load_i2i_dict(path+f"/{covi}/pairs.ES.csv")
     logging.info("load_i2i_dict ES done!")
-    co_FR = load_i2i_dict(path+"/covisit/pairs.FR.csv")
+    co_FR = load_i2i_dict(path+f"/{covi}/pairs.FR.csv")
     logging.info("load_i2i_dict FR done!")
-    co_IT = load_i2i_dict(path+"/covisit/pairs.IT.csv")
+    co_IT = load_i2i_dict(path+f"/{covi}/pairs.IT.csv")
     logging.info("load_i2i_dict IT done!")
-    swing = load_i2i_dict(path+"/swing/swing.sim.full", sep="\t")
+    swing = load_i2i_dict(path+f"/{sw}/swing.sim.full", sep="\t")
     logging.info("load_i2i_dict swing done!")
     return {"co_global": co_global, "co_DE": co_DE, "co_JP": co_JP, "co_UK": co_UK,
             "co_ES": co_ES, "co_FR": co_FR, "co_IT": co_IT, "swing": swing}
