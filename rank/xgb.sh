@@ -13,3 +13,7 @@ nohup python -u xgb_rank.py --train_file ${root}/train_data/train --test_file ${
 
 nohup python -u xgb_predict.py --input_file ${root}/cand/candi_feat_100.test --output_file ${root}/cand/candi_feat_100.test.pred \
   --model_file ${root}/model/xgb.1 > log 2>&1 &
+
+# 提交数据
+nohup python -u xgb_predict.py --input_file ${root}/cand/submission_feat_100 --output_file ${root}/cand/submission_feat_100.pred \
+  --model_file ${root}/model/xgb.1 > log 2>&1 &
