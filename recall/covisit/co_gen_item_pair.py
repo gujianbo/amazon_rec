@@ -28,7 +28,7 @@ def gen_item_pair(input_file, output_file, country, debug=0):
     for index, row in tqdm(session_pd.iterrows(), desc="gen_item_pair"):
         session = [sess.strip().strip("[").strip("]").strip("'") for sess in row["prev_items"].split()]
         next_item = row["next_item"]
-        session.append(next_item)
+        # session.append(next_item)
         session_set = set(session)
         # print(click_aid)
         if len(session_set) <= 1:
