@@ -13,7 +13,7 @@ logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FO
 def eval(input_file):
     buf = []
     last_prev_items = ""
-    mmr_val = 0
+    mrr_val = 0
     sum = 0
     with open(input_file, "r") as fd:
         for line in tqdm(fd, desc="eval"):
@@ -26,7 +26,7 @@ def eval(input_file):
                 for i in range(len(sorted_buf)):
                     tmp_candi, tmp_label, tmp_pred = sorted_buf[i]
                     if tmp_label == 1.0:
-                        mmr_val += 1.0/(i+1.0)
+                        mrr_val += 1.0/(i+1.0)
                         target = tmp_candi
                         break
                 logging.info(f"{last_prev_items}\t{items}\t{target}")
@@ -41,15 +41,15 @@ def eval(input_file):
     for i in range(len(sorted_buf)):
         tmp_candi, tmp_label, tmp_pred = sorted_buf[i]
         if tmp_label == 1:
-            mmr_val += 1.0 / (i + 1.0)
+            mrr_val += 1.0 / (i + 1.0)
             target = tmp_candi
             break
     logging.info(f"{last_prev_items}\t{items}\t{target}")
     sum += 1
-    mmr_avg = mmr_val/sum
-    logging.info(f"mmr_val value:{mmr_val}")
+    mrr_avg = mrr_val/sum
+    logging.info(f"mrr_val value:{mrr_val}")
     logging.info(f"sum:{sum}")
-    logging.info(f"MMR value:{mmr_avg}")
+    logging.info(f"MRR value:{mrr_avg}")
 
 
 if __name__ == "__main__":

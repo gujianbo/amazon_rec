@@ -8,11 +8,12 @@ nohup python -u slice_data.py --input_file ${root}/cand/candi_feat.pre \
   --sample_cnt 20 > log 2>&1 &
 
 nohup python -u xgb_rank.py --train_file ${root}/train_data/train --test_file ${root}/train_data/test \
-  --model_file ${root}/model/xgb.1 --log_file ${root}/log/xgb.log --scale_pos_weight 10 \
+  --model_file ${root}/model/xgb.pre.1 --log_file ${root}/log/xgb.log --scale_pos_weight 10 \
   --num_boost_round 500 > log 2>&1 &
 
-nohup python -u xgb_predict.py --input_file ${root}/cand/candi_feat_100.test --output_file ${root}/cand/candi_feat_100.test.pred \
-  --model_file ${root}/model/xgb.1 > log 2>&1 &
+nohup python -u xgb_predict.py --input_file ${root}/cand/candi_feat_100.pre.test \
+  --output_file ${root}/cand/candi_feat_100.pre.test.pred \
+  --model_file ${root}/model/xgb.pre.1 > log 2>&1 &
 
 # 提交数据
 nohup python -u xgb_predict.py --input_file ${root}/cand/submission_feat_100 --output_file ${root}/cand/submission_feat_100.pred \
