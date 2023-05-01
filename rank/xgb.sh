@@ -16,5 +16,10 @@ nohup python -u xgb_predict.py --input_file ${root}/cand/candi_feat_100.pre.test
   --model_file ${root}/model/xgb.pre.1 > log 2>&1 &
 
 # 提交数据
-nohup python -u xgb_predict.py --input_file ${root}/cand/submission_feat_100 --output_file ${root}/cand/submission_feat_100.pred \
-  --model_file ${root}/model/xgb.1 > log 2>&1 &
+nohup python -u xgb_predict.py --input_file ${root}/cand/submission_feat_100.pre \
+  --output_file ${root}/cand/submission_feat_100.pre.pred \
+  --model_file ${root}/model/xgb.pre.1 > log 2>&1 &
+
+# 格式化提交数据，输出parquet
+python format_submission.py --input_file ${root}/cand/submission_feat_100.pre.pred \
+  --output_file ${root}/cand/submission_100.pre.parquet
