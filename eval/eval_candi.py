@@ -20,6 +20,7 @@ def eval_candi(input_file):
     hit150cnt = 0
     hit200cnt = 0
     mrr100 = 0
+    hit_cnt = 0
     for index, row in tqdm(session_pd.iterrows(), desc="eval_candi"):
         next_item = row["next_item"]
         candi = row["candi"].split(",")
@@ -40,6 +41,8 @@ def eval_candi(input_file):
             hit150cnt += 1
         if next_item in candi[:200]:
             hit200cnt += 1
+        if next_item in candi:
+            hit_cnt += 1
         # if next_item in candi[:150]:
         #     hit150cnt += 1
         cnt += 1
@@ -50,6 +53,7 @@ def eval_candi(input_file):
     hit100rate = hit100cnt / cnt
     hit150rate = hit150cnt / cnt
     hit200rate = hit200cnt / cnt
+    hit_rate = hit_cnt / cnt
     mrr100avg = mrr100/cnt
     logging.info(f"{input_file} - hit_rate@10:{hit10rate}")
     logging.info(f"{input_file} - hit_rate@20:{hit20rate}")
@@ -57,6 +61,7 @@ def eval_candi(input_file):
     logging.info(f"{input_file} - hit_rate@100:{hit100rate}")
     logging.info(f"{input_file} - hit_rate@150:{hit150rate}")
     logging.info(f"{input_file} - hit_rate@200:{hit200rate}")
+    logging.info(f"{input_file} - hit_rate:{hit_rate}")
     logging.info(f"mmr@100:{mrr100avg}")
 
 
