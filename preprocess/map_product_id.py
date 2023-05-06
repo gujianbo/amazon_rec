@@ -34,4 +34,5 @@ def map_id(input_file, output_file):
 
 if __name__ == "__main__":
     logging.info(f"input_file:{config.input_file}")
-    map_id(config.input_file)
+    logging.info(f"output_file:{config.output_file}")
+    map_id(config.input_file, config.output_file)
