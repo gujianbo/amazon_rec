@@ -14,5 +14,8 @@ python -u recall_eval.py --input_file ${root}/data/sessions_train.csv --i2i_file
 python -u eval_candi.py --input_file /data/users/jianbogu/amazon/cand/candi_100_top200.lo.csv \
   --log_file ${root}/log/eval_candi2.log
 
+python -u eval_candi.py --input_file /data/users/jianbogu/amazon/cand/candi_100_all.sample.lo.csv \
+  --log_file ${root}/log/eval_candi2.log
+
 nohup python -u eval_rank_mrr.py --input_file ${root}/cand/candi_feat_100.pre.test.pred \
   --log_file ${root}/log/eval_rank_mrr.log > log 2>&1 &
