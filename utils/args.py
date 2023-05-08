@@ -31,6 +31,28 @@ parser.add_argument('--neg_sample_rate', type=int, default=20)
 parser.add_argument('--scale_pos_weight', type=int, default=20)
 parser.add_argument('--num_boost_round', type=int, default=1000)
 
+# dnn
+parser.add_argument('--max_seq_len', type=int, default=64)
+parser.add_argument('--d_model', type=int, default=128)
+parser.add_argument('--dense_size', type=int, default=64)
+parser.add_argument('--num_items', type=int, default=1420000)
+parser.add_argument('--num_layers', type=int, default=4)
+parser.add_argument('--num_head', type=int, default=4)
+parser.add_argument('--d_ff', type=int, default=128)
+parser.add_argument('--dropout', type=float, default=0.5)
+parser.add_argument('--init_parameters', type=str, default="")
+parser.add_argument('--lr', type=float, default=1e-4)
+parser.add_argument('--weight_decay', type=float, default=0, help="weight_decay")
+parser.add_argument('--buffer_size', type=int, default=100000, help="buffer_size")
+parser.add_argument('--train_batch_size', type=int, default=128, help="train_batch_size")
+parser.add_argument('--test_batch_size', type=int, default=64, help="test_batch_size")
+parser.add_argument('--epoch', type=int, default=64, help="epoch")
+parser.add_argument('--log_level', type=int, default=0, help="log_level")
+parser.add_argument('--log_interval', type=int, default=1000, help="log_interval")
+parser.add_argument('--eval_step', type=int, default=10000, help="eval_step")
+parser.add_argument('--save_step', type=int, default=10000, help="save_step")
+parser.add_argument('--save_path', type=int, default=10000, help="save_path")
+
 config = parser.parse_args()
 
 config._PAD_ = 0

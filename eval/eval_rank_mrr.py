@@ -5,9 +5,41 @@ from utils.args import config
 import logging
 from tqdm.auto import tqdm
 import pandas as pd
+import numpy as np
 
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(message)s"
 logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FORMAT)
+
+
+def get_item_mrr(session_id, item):
+    sorted_buf = sorted(item, key=lambda x: x[0], reverse=True)
+    for i in range(len(sorted_buf)):
+        tmp_logits, tmp_label = sorted_buf[i]
+        if tmp_label == 1.0:
+            mrr_val = 1.0 / (i + 1.0)
+            return mrr_val
+    return 0
+
+
+def test_mrr(sid_list, test_logits, test_labels):
+    cur_sid = sid_list[0]
+    item = []
+    mrr_sum = 0
+    sid_sum = 0
+    for i in range(len(sid_list)):
+        if sid_list[i] != cur_sid:
+            tmp_mrr = get_item_mrr(cur_sid, item)
+            mrr_sum += tmp_mrr
+            sid_sum += 1
+
+            cur_sid = sid_list[i]
+            item = []
+        item.append([test_logits[i], test_labels[i]])
+    tmp_mrr = get_item_mrr(cur_sid, item)
+    mrr_sum += tmp_mrr
+    sid_sum += 1
+    mrr = mrr_sum/sid_sum
+    return mrr
 
 
 def eval(input_file):
