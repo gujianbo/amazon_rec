@@ -146,7 +146,7 @@ def map_id(prev_items, candi, product2id):
     assert candi in product2id
     candi_id = str(product2id[candi])
     prev_ids = []
-    for item in prev_items.split(","):
+    for item in prev_items:
         assert item in product2id
         prev_ids.append(str(product2id[item]))
     return ",".join(prev_ids), candi_id
