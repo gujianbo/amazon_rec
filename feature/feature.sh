@@ -29,3 +29,10 @@ nohup python -u feat_extract.py --input_file ${root}/cand/submission_100_top100.
   --output_file ${root}/cand/submission_feat_100.pre \
   --item_feat_file ${root}/feat/item_feat.dict \
   --root_path ${root} > log 2>&1 &
+
+
+nohup python -u feat_extract_dnn.py --input_file ${root}/cand/candi_100_top100.pre.flatten.csv \
+  --output_file ${root}/cand/candi_feat.dnn \
+  --item_feat_file ${root}/feat/item_feat.dict \
+  --product_dict_file ${root}/data/product2id.dict \
+  --root_path ${root} > log 2>&1 &
