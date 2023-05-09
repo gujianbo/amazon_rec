@@ -72,5 +72,7 @@ class TrainDatasetListBuffer(IterableDataset):
                         # logging.info(f"item:{buffer[idx]}")
                         yield buffer[idx]
                         buffer[idx] = [prev_ids, padding_mask, locale_code, dense_feat, candi_id, label]
+                    else:
+                        buffer.append([prev_ids, padding_mask, locale_code, dense_feat, candi_id, label])
                 while len(buffer) > 0:
                     yield buffer.pop()
