@@ -22,7 +22,7 @@ def process_context_item(prev_ids, max_seq_len=128):
         prev_ids = prev_ids[:max_seq_len]
         padding_mask = padding_mask[:max_seq_len]
     padding_mask = torch.tensor(padding_mask, dtype=torch.int32)
-    prev_ids = torch.tensor(prev_ids, dtype=torch.float32)
+    prev_ids = torch.tensor(prev_ids, dtype=torch.int32)
 
     return prev_ids, padding_mask
 

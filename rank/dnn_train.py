@@ -88,7 +88,7 @@ for round in range(config.epoch):
         if config.log_level >= 1:
             logging.debug(f"prev_ids.shape:{prev_ids.shape}, padding_mask.shape:{padding_mask.shape}, "
                           f"locale_code.shape:{locale_code.shape}, dense_feat.shape:{dense_feat.shape}, "
-                          f"candi_id.shape:{candi_id.shape}, candi_id.shape:{candi_id.shape}, label.shape:{label.shape}")
+                          f"candi_id.shape:{candi_id.shape}, label.shape:{label.shape}")
 
         label_t = torch.tensor(label, dtype=torch.float32).to(device)
         logits = model(prev_ids, padding_mask, locale_code, dense_feat, candi_id)
