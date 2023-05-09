@@ -1,8 +1,8 @@
 import sys
-sys.path.append("..")
+sys.path.append("../..")
 
 from torch.utils.data import Dataset
-from train_dataloader import process_context_item
+from .train_dataloader import process_context_item
 from utils.args import config
 import logging
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(message)s"
