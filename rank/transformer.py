@@ -2,10 +2,10 @@ import torch.nn as nn
 import torch
 import sys
 sys.path.append("..")
-from utils.feed_forward import PositionwiseFeedForward
-from utils.multi_head_attention import MultiHeadedAttention
-from utils.multi_head_attention import clones
-from utils.position import LearnedPositionalEncoding
+from model_utils.feed_forward import PositionwiseFeedForward
+from model_utils.multi_head_attention import MultiHeadedAttention
+from model_utils.multi_head_attention import clones
+from model_utils.position import LearnedPositionalEncoding
 import copy
 
 
