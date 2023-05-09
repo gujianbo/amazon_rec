@@ -110,6 +110,10 @@ for round in range(config.epoch):
                 test_prev_ids, test_padding_mask, test_locale_code, test_dense_feat, test_candi_id = \
                     test_prev_ids.to(device), test_padding_mask.to(device), test_locale_code.to(device), test_dense_feat.to(
                         device), test_candi_id.to(device)
+                if config.log_level >= 1:
+                    logging.debug(f"test_prev_ids.shape:{test_prev_ids.shape}, test_padding_mask.shape:{test_padding_mask.shape}, "
+                                  f"test_locale_code.shape:{test_locale_code.shape}, test_dense_feat.shape:{test_dense_feat.shape}, "
+                                  f"test_candi_id.shape:{test_candi_id.shape}, test_label.shape:{test_label.shape}")
                 test_label_t = torch.tensor(test_label, dtype=torch.float32).to(device)
                 logits_test = model(test_prev_ids, test_padding_mask, test_locale_code, test_candi_id, test_dense_feat)
                 test_logits += list(logits_test.detach().squeeze().cpu().numpy())
