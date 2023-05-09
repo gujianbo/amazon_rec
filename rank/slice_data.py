@@ -32,7 +32,7 @@ def slice_data(input_file, train_file, test_file, sample_cnt, seed):
         for line in tqdm(fd, ):
             line = line.strip()
             try:
-                (prev_items, candi, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str, label) = line.split("\t")
+                (prev_items, candi, candi_id, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str, label) = line.split("\t")
             except:
                 print(line)
                 exit(1)
