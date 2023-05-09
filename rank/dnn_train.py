@@ -100,7 +100,7 @@ for round in range(config.epoch):
         optimizer.step()
         if idx % config.log_interval == 0:
             logging.info(f'{idx:5d}th step | label_loss {label_loss.cpu().item():5.6f}')
-        if idx % config.eval_step == 0:
+        if idx % config.eval_step == 0 and idx>0:
             model.eval()
             test_logits, test_labels = [], []
             eval_idx = 0
@@ -119,8 +119,8 @@ for round in range(config.epoch):
                 test_logits += list(logits_test.detach().squeeze().cpu().numpy())
                 test_labels += list(test_label_t.detach().cpu().numpy())
 
-                test_label_loss = bce_loss(logits_test, test_label_t.unsqueeze(1).to(device))
-                test_label_loss_sum += test_label_loss
+                test_label_loss = bce_loss(logits_test, test_label_t.unsqueeze(1))
+                test_label_loss_sum += test_label_loss.cpu().item()
                 eval_idx += 1
             if config.log_level >= 1:
                 logging.debug(f"test_labels.shape:({len(test_labels)}{len(test_labels[0])}), test_logits.shape:({len(test_logits)}{len(test_logits[0])})")
