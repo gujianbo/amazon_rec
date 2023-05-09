@@ -126,17 +126,17 @@ for round in range(config.epoch):
                 logging.debug(f"test_labels.shape:({len(test_labels)}{len(test_labels[0])}), test_logits.shape:({len(test_logits)}{len(test_logits[0])})")
             test_auc = roc_auc_score(test_labels, test_logits)
             test_loss = test_label_loss_sum/eval_idx
-            test_mrr = test_mrr(test_dataset.sid_list, test_logits, test_labels)
-            logging.info(f'{idx:5d}th step | test_auc {test_auc:5.6f} | test_loss {test_loss:5.6f} | test_mrr {test_mrr:5.6f}')
-        if idx >= config.eval_step and (test_mrr > max_mrr or idx % config.save_step == 0):
-            if test_mrr > max_mrr:
-                max_mrr = test_mrr
-            model_name = f"{config.save_path}/dnn_v{version}_steps_{idx}_{test_mrr:.4f}_{test_auc:.4f}_{test_loss:.4f}.model"
+            test_mrr_val = test_mrr(test_dataset.sid_list, test_logits, test_labels)
+            logging.info(f'{idx:5d}th step | test_auc {test_auc:5.6f} | test_loss {test_loss:5.6f} | test_mrr_val {test_mrr_val:5.6f}')
+        if idx >= config.eval_step and (test_mrr_val > max_mrr or idx % config.save_step == 0):
+            if test_mrr_val > max_mrr:
+                max_mrr = test_mrr_val
+            model_name = f"{config.save_path}/dnn_v{version}_steps_{idx}_{test_mrr_val:.4f}_{test_auc:.4f}_{test_loss:.4f}.model"
             torch.save(model.state_dict(), model_name)
             logging.info(f"model {model_name} is saved!")
         idx += 1
     scheduler.step()
 
-model_name = f"{config.save_path}/dnn_v{version}_steps_{idx}_{test_mrr:.4f}_{test_auc:.4f}_{test_loss:.4f}.model"
+model_name = f"{config.save_path}/dnn_v{version}_steps_{idx}_{test_mrr_val:.4f}_{test_auc:.4f}_{test_loss:.4f}.model"
 torch.save(model.state_dict(), model_name)
 logging.info(f"model {model_name} is saved!")
