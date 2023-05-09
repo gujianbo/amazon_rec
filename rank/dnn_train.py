@@ -113,11 +113,13 @@ for round in range(config.epoch):
                 test_label_t = torch.tensor(test_label, dtype=torch.float32).to(device)
                 logits_test = model(test_prev_ids, test_padding_mask, test_locale_code, test_candi_id, test_dense_feat)
                 test_logits += list(logits_test.detach().squeeze().cpu().numpy())
-                test_labels += list(test_label_t.detach().numpy())
+                test_labels += list(test_label_t.detach().cpu().numpy())
 
                 test_label_loss = bce_loss(logits_test, test_label_t.unsqueeze(1).to(device))
                 test_label_loss_sum += test_label_loss
                 eval_idx += 1
+            if config.log_level >= 1:
+                logging.debug(f"test_labels.shape:({len(test_labels)}{len(test_labels[0])}), test_logits.shape:({len(test_logits)}{len(test_logits[0])})")
             test_auc = roc_auc_score(test_labels, test_logits)
             test_loss = test_label_loss_sum/eval_idx
             test_mrr = test_mrr(test_dataloader.sid_list, test_logits, test_labels)
