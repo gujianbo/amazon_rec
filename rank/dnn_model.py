@@ -2,7 +2,7 @@ import torch.nn as nn
 import torch
 from transformer import Transformer
 from din import DeepInterestNetwork
-from utils.mlp import Tower
+from model_utils.mlp import Tower
 
 
 class DNNModel(nn.Module):

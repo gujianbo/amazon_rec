@@ -2,7 +2,7 @@ import torch.nn as nn
 import torch
 import sys
 sys.path.append("..")
-from utils.fully_connected_layer import FullyConnectedLayer
+from model_utils.fully_connected_layer import FullyConnectedLayer
 
 
 class DeepInterestNetwork(nn.Module):

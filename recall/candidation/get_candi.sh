@@ -41,8 +41,8 @@ nohup python -u get_candidation.py --input_file ${root}/data/sessions_test_task1
   --root_path ${root} --topk 100 \
   --log_file ${root}/log/candi.log >> candi.log 2>&1 &
 
-nohup python -u flatten_candidation.py --input_file ${root}/cand/candi_100_top100.pre.csv \
-  --output_file ${root}/cand/candi_100_top100.pre.flatten.csv \
+nohup python -u flatten_candidation.py --input_file ${root}/cand/candi_100_top100.lo.csv \
+  --output_file ${root}/cand/candi_100_top100.lo.flatten.csv \
   --log_file ${root}/log/flatten.log > flatten.log 2>&1 &
 
 # 测试
