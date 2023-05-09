@@ -106,7 +106,7 @@ for round in range(config.epoch):
             eval_idx = 0
             test_label_loss_sum = 0
             for test_data_batch in test_dataloader:
-                test_prev_ids, test_padding_mask, test_locale_code, test_dense_feat, test_candi_id, test_label = train_data_batch
+                test_prev_ids, test_padding_mask, test_locale_code, test_dense_feat, test_candi_id, test_label = test_data_batch
                 test_prev_ids, test_padding_mask, test_locale_code, test_dense_feat, test_candi_id = \
                     test_prev_ids.to(device), test_padding_mask.to(device), test_locale_code.to(device), test_dense_feat.to(
                         device), test_candi_id.to(device)
