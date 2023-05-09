@@ -21,7 +21,7 @@ class DNNModel(nn.Module):
         self.din = DeepInterestNetwork(d_model)
         self.ts_embedding = nn.Embedding(1, d_model)
         self.input_size = input_size
-        self.mlp = Tower(input_size, 128, 1)
+        self.mlp = Tower(input_size, 1, 128)
 
     def forward(self, id_list, mask, locale_code, candi, other_feat):
         id_list_feat = self.item_embedding(id_list)
