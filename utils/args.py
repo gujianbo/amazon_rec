@@ -51,7 +51,7 @@ parser.add_argument('--log_level', type=int, default=0, help="log_level")
 parser.add_argument('--log_interval', type=int, default=1000, help="log_interval")
 parser.add_argument('--eval_step', type=int, default=10000, help="eval_step")
 parser.add_argument('--save_step', type=int, default=10000, help="save_step")
-parser.add_argument('--save_path', type=int, default=10000, help="save_path")
+parser.add_argument('--save_path', type=str, default="", help="save_path")
 
 config = parser.parse_args()
 
