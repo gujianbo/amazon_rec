@@ -1,6 +1,7 @@
 import sys
 sys.path.append("../..")
 
+import torch
 from torch.utils.data import Dataset
 from .train_dataloader import process_context_item
 from utils.args import config
@@ -36,7 +37,9 @@ class TestDatasetList(Dataset):
                 self.sid_list.append(prev_ids)
 
                 candi_id = int(candi_id)
+                candi_id = torch.tensor([candi_id], dtype=torch.int32)
                 locale_code = int(locale_code)
+                locale_code = torch.tensor([locale_code], dtype=torch.int32)
                 item_feat = [float(item) for item in item_feat_str.split(",")]
                 session_stat_feat = [float(item) for item in session_stat_feat_str.split(",")]
                 interact_feat = [float(item) for item in interact_feat_str.split(",")]
@@ -44,6 +47,7 @@ class TestDatasetList(Dataset):
                 dense_feat += item_feat
                 dense_feat += session_stat_feat
                 dense_feat += interact_feat
+                dense_feat = torch.tensor(dense_feat, dtype=torch.int32)
 
                 prev_ids = [int(item) for item in prev_ids.split(",")]
                 label = float(label)
