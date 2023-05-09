@@ -35,7 +35,8 @@ class TrainDatasetListBuffer(IterableDataset):
         self.buffer_size = buffer_size
         self.need_label = need_label
         self.ignore_just_label = False
-        self.files = [self.file_path+"/"+f for f in random.shuffle(self.files)]
+        random.shuffle(self.files)
+        self.files = [self.file_path+"/"+f for f in self.files]
 
     def __iter__(self):
         buffer = []
