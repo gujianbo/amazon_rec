@@ -82,17 +82,18 @@ for round in range(config.epoch):
         # optimizer.clear_grad()
         optimizer.zero_grad()
         prev_ids, padding_mask, locale_code, dense_feat, candi_id, label = train_data_batch
-        prev_ids, padding_mask, locale_code, dense_feat, candi_id, label = \
-            prev_ids.to(device), padding_mask.to(device), locale_code.to(device), dense_feat.to(device), candi_id.to(device), label.to(device)
+        prev_ids, padding_mask, locale_code, dense_feat, candi_id = \
+            prev_ids.to(device), padding_mask.to(device), locale_code.to(device), dense_feat.to(device), candi_id.to(device)
 
         if config.log_level >= 1:
             logging.debug(f"prev_ids.shape:{prev_ids.shape}, padding_mask.shape:{padding_mask.shape}, "
                           f"locale_code.shape:{locale_code.shape}, dense_feat.shape:{dense_feat.shape}, "
                           f"candi_id.shape:{candi_id.shape}, candi_id.shape:{candi_id.shape}, label.shape:{label.shape}")
 
+        label_t = torch.tensor(label, dtype=torch.float32).to(device)
         logits = model(prev_ids, padding_mask, locale_code, dense_feat, candi_id)
 
-        label_loss = bce_loss(logits, label.unsqueeze(1))
+        label_loss = bce_loss(logits, label_t.unsqueeze(1))
         label_loss.backward()
         optimizer.step()
         if idx % config.log_interval == 0:
@@ -104,14 +105,15 @@ for round in range(config.epoch):
             test_label_loss_sum = 0
             for test_data_batch in test_dataloader:
                 test_prev_ids, test_padding_mask, test_locale_code, test_dense_feat, test_candi_id, test_label = train_data_batch
-                test_prev_ids, test_padding_mask, test_locale_code, test_dense_feat, test_candi_id, test_label = \
+                test_prev_ids, test_padding_mask, test_locale_code, test_dense_feat, test_candi_id = \
                     test_prev_ids.to(device), test_padding_mask.to(device), test_locale_code.to(device), test_dense_feat.to(
-                        device), test_candi_id.to(device), test_label.to(device)
+                        device), test_candi_id.to(device)
+                test_label_t = torch.tensor(test_label, dtype=torch.float32).to(device)
                 logits_test = model(test_prev_ids, test_padding_mask, test_locale_code, test_dense_feat, test_candi_id)
                 test_logits += list(logits_test.detach().squeeze().cpu().numpy())
-                test_labels += list(test_label.detach().numpy())
+                test_labels += list(test_label_t.detach().numpy())
 
-                test_label_loss = bce_loss(logits_test, test_label.unsqueeze(1))
+                test_label_loss = bce_loss(logits_test, test_label_t.unsqueeze(1).to(device))
                 test_label_loss_sum += test_label_loss
                 eval_idx += 1
             test_auc = roc_auc_score(test_labels, test_logits)

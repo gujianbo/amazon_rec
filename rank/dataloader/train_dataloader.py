@@ -53,7 +53,10 @@ class TrainDatasetListBuffer(IterableDataset):
                         continue
                     prev_ids, candi, candi_id, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str, label = line_list
                     candi_id = int(candi_id)
+                    candi_id = torch.tensor([candi_id], dtype=torch.int32)
                     locale_code = int(locale_code)
+                    locale_code = torch.tensor([locale_code], dtype=torch.int32)
+
                     item_feat = [float(item) for item in item_feat_str.split(",")]
                     session_stat_feat = [float(item) for item in session_stat_feat_str.split(",")]
                     interact_feat = [float(item) for item in interact_feat_str.split(",")]
@@ -61,6 +64,7 @@ class TrainDatasetListBuffer(IterableDataset):
                     dense_feat += item_feat
                     dense_feat += session_stat_feat
                     dense_feat += interact_feat
+                    dense_feat = torch.tensor(dense_feat, dtype=torch.int32)
 
                     prev_ids = [int(item) for item in prev_ids.split(",")]
                     label = float(label)
