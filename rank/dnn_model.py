@@ -11,6 +11,7 @@ import logging
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(message)s"
 logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FORMAT)
 
+
 class DNNModel(nn.Module):
     def __init__(self, input_size, num_items, d_model, num_layers, num_head, d_ff, max_len, dropout):
         super(DNNModel, self).__init__()

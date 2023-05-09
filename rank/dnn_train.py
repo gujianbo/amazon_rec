@@ -92,6 +92,8 @@ for round in range(config.epoch):
 
         label_t = torch.tensor(label, dtype=torch.float32).to(device)
         logits = model(prev_ids, padding_mask, locale_code, candi_id, dense_feat)
+        if config.log_level >= 1:
+            logging.debug(f"logits.shape:{logits.shape} | label_t.shape:{label_t.shape}")
 
         label_loss = bce_loss(logits, label_t.unsqueeze(1))
         label_loss.backward()
