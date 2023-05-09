@@ -26,6 +26,7 @@ print(config)
 
 input_size = (config.max_seq_len + 2) * config.d_model + config.dense_size
 model = DNNModel(
+    input_size=config.input_size,
     num_items=config.num_items,
     d_model=config.d_model,
     num_layers=config.num_layers,
@@ -34,6 +35,9 @@ model = DNNModel(
     max_len=config.max_seq_len,
     dropout=config.dropout
 )
+logging.info(f"input_size:{config.input_size} | num_items:{config.num_items} | d_model:{config.d_model} | "
+             f"num_layers:{config.num_layers} | num_head:{config.num_head} | d_ff:{config.d_ff} | "
+             f"max_len:{config.max_seq_len} | dropout:{config.dropout}")
 
 if config.init_parameters != "":
     # print('load warm up model ', config.init_parameters, file=config.log_file)
@@ -54,7 +58,7 @@ optimizer = torch.optim.AdamW(
     params=model.parameters(),
     weight_decay=config.weight_decay
 )
-scheduler = StepLR(optimizer=optimizer, step_size=3, gamma=0.1)
+scheduler = StepLR(optimizer=optimizer, step_size=30, gamma=0.1)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logging.info(f"device:{device}")
 train_dataset = TrainDatasetListBuffer(config.train_file, buffer_size=config.buffer_size, need_label=True, max_seq_len=config.max_seq_len)
