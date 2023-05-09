@@ -26,7 +26,7 @@ print(config)
 
 input_size = (config.max_seq_len + 2) * config.d_model + config.dense_size
 model = DNNModel(
-    input_size=config.input_size,
+    input_size=input_size,
     num_items=config.num_items,
     d_model=config.d_model,
     num_layers=config.num_layers,
@@ -35,7 +35,7 @@ model = DNNModel(
     max_len=config.max_seq_len,
     dropout=config.dropout
 )
-logging.info(f"input_size:{config.input_size} | num_items:{config.num_items} | d_model:{config.d_model} | "
+logging.info(f"input_size:{input_size} | num_items:{config.num_items} | d_model:{config.d_model} | "
              f"num_layers:{config.num_layers} | num_head:{config.num_head} | d_ff:{config.d_ff} | "
              f"max_len:{config.max_seq_len} | dropout:{config.dropout}")
 
