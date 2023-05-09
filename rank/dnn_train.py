@@ -91,7 +91,7 @@ for round in range(config.epoch):
                           f"candi_id.shape:{candi_id.shape}, label.shape:{label.shape}")
 
         label_t = torch.tensor(label, dtype=torch.float32).to(device)
-        logits = model(prev_ids, padding_mask, locale_code, dense_feat, candi_id)
+        logits = model(prev_ids, padding_mask, locale_code, candi_id, dense_feat)
 
         label_loss = bce_loss(logits, label_t.unsqueeze(1))
         label_loss.backward()
@@ -109,7 +109,7 @@ for round in range(config.epoch):
                     test_prev_ids.to(device), test_padding_mask.to(device), test_locale_code.to(device), test_dense_feat.to(
                         device), test_candi_id.to(device)
                 test_label_t = torch.tensor(test_label, dtype=torch.float32).to(device)
-                logits_test = model(test_prev_ids, test_padding_mask, test_locale_code, test_dense_feat, test_candi_id)
+                logits_test = model(test_prev_ids, test_padding_mask, test_locale_code, test_candi_id, test_dense_feat)
                 test_logits += list(logits_test.detach().squeeze().cpu().numpy())
                 test_labels += list(test_label_t.detach().numpy())
 

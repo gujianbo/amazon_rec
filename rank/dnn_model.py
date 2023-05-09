@@ -3,7 +3,13 @@ import torch
 from transformer import Transformer
 from din import DeepInterestNetwork
 from model_utils.mlp import Tower
+import sys
+sys.path.append("..")
+from utils.args import config
 
+import logging
+LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(message)s"
+logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FORMAT)
 
 class DNNModel(nn.Module):
     def __init__(self, input_size, num_items, d_model, num_layers, num_head, d_ff, max_len, dropout):
@@ -24,6 +30,7 @@ class DNNModel(nn.Module):
         new_mask = mask.unsqueeze(2).repeat(1, 1, self.d_model)
         tfm_feat = tfm_feat.masked_fill(new_mask == 1, 0.0)
         id_feat = self.item_embedding(candi)
+        # logging.info(f"tfm_feat.shape:{tfm_feat.shape} | id_feat.shape:{id_feat.shape} | mask:{mask.shape}")
         din_feat = self.din(tfm_feat, id_feat, mask)
         batch_size = id_list.shape[0]
         # print(batch_size)
