@@ -99,7 +99,7 @@ for round in range(config.epoch):
         label_loss.backward()
         optimizer.step()
         if idx % config.log_interval == 0:
-            logging.info(f'{idx:5d}th step | label_loss {label_loss.cpu().item():5.6f}')
+            logging.info(f'epoch {round} | {idx:5d}th step | label_loss {label_loss.cpu().item():5.6f}')
         if idx % config.eval_step == 0 and idx > 0:
             model.eval()
             test_logits, test_labels = [], []
@@ -127,7 +127,7 @@ for round in range(config.epoch):
             test_auc = roc_auc_score(test_labels, test_logits)
             test_loss = test_label_loss_sum/eval_idx
             test_mrr_val = test_mrr(test_dataset.sid_list, test_logits, test_labels)
-            logging.info(f'{idx:5d}th step | test_auc {test_auc:5.6f} | test_loss {test_loss:5.6f} | test_mrr_val {test_mrr_val:5.6f}')
+            logging.info(f'epoch {round} | {idx:5d}th step | test_auc {test_auc:5.6f} | test_loss {test_loss:5.6f} | test_mrr_val {test_mrr_val:5.6f}')
         if idx >= config.eval_step and (test_mrr_val > max_mrr or idx % config.save_step == 0):
             if test_mrr_val > max_mrr:
                 max_mrr = test_mrr_val
