@@ -58,7 +58,7 @@ optimizer = torch.optim.AdamW(
     params=model.parameters(),
     weight_decay=config.weight_decay
 )
-scheduler = StepLR(optimizer=optimizer, step_size=30, gamma=0.1)
+scheduler = StepLR(optimizer=optimizer, step_size=config.step_lr_size, gamma=0.1)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logging.info(f"device:{device}")
 train_dataset = TrainDatasetListBuffer(config.train_file, buffer_size=config.buffer_size, need_label=True, max_seq_len=config.max_seq_len)
