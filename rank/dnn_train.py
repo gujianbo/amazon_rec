@@ -24,7 +24,7 @@ random.seed(config.seed)
 np.random.seed(config.seed)
 print(config)
 
-input_size = (config.max_seq_len + 2) * config.d_model + config.dense_size
+input_size = (config.max_seq_len + 3) * config.d_model + config.dense_size
 model = DNNModel(
     input_size=input_size,
     num_items=config.num_items,

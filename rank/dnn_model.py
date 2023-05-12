@@ -22,6 +22,7 @@ class DNNModel(nn.Module):
         self.ts_embedding = nn.Embedding(1, d_model)
         self.input_size = input_size
         self.mlp = Tower(input_size, 1, 128)
+        self.region_embedding = nn.Embedding(7, d_model)
 
     def forward(self, id_list, mask, locale_code, candi, other_feat):
         id_list_feat = self.item_embedding(id_list)
@@ -38,11 +39,15 @@ class DNNModel(nn.Module):
         # print("tfm_feat.shape", tfm_feat.shape)
         # print("din_feat.shape", din_feat.shape)
         # print("id_feat.shape", id_feat.shape)
+        if config.log_level >= 1:
+            logging.info(f"other_feat.shape:{other_feat.shape}")
 
         transf_feat = torch.reshape(tfm_feat, (batch_size, -1))
         deep_interest_net_feat = torch.reshape(din_feat, (batch_size, -1))
         id_emb_feat = torch.reshape(id_feat, (batch_size, -1))
-        all_feat = torch.concat([transf_feat, deep_interest_net_feat, id_emb_feat, locale_code, other_feat], dim=1)
+        region_feat = torch.reshape(self.region_embedding(locale_code), (batch_size, -1))
+
+        all_feat = torch.concat([transf_feat, deep_interest_net_feat, id_emb_feat, region_feat, other_feat], dim=1)
         logits = self.mlp(all_feat)
         return logits
 
