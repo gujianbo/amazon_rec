@@ -47,7 +47,19 @@ class TestDatasetList(Dataset):
                 dense_feat += item_feat
                 dense_feat += session_stat_feat
                 dense_feat += interact_feat
-                dense_feat = torch.tensor(dense_feat, dtype=torch.int32)
+
+                local_idx = [3, 6, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49, 52, 55, 58, 61, 64, 67]
+                local_feat = [interact_feat[idx] for idx in local_idx]
+                empty_feat = [0.0] * 22
+                local_sec_feat = []
+                for i in range(locale_code - 1):
+                    local_sec_feat += empty_feat
+                local_sec_feat += local_feat
+                for i in range(6 - locale_code):
+                    local_sec_feat += empty_feat
+
+                dense_feat += local_sec_feat
+                dense_feat = torch.tensor(dense_feat, dtype=torch.float32)
 
                 prev_ids = [int(item) for item in prev_ids.split(",")]
                 label = float(label)
