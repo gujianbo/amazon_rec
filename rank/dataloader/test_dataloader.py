@@ -69,7 +69,7 @@ class TestDatasetList(Dataset):
         return buffer
 
 
-class SubmissionDatasetList(Dataset):
+class SubmissionDatasetList(IterableDataset):
     def __init__(self, file, need_label=True, max_seq_len=128):
         self.max_seq_len = max_seq_len
         self.file = file
