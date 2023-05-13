@@ -37,16 +37,17 @@ logging.info(f"input_size:{input_size} | num_items:{config.num_items} | d_model:
 if config.init_parameters != "":
     # print('load warm up model ', config.init_parameters, file=config.log_file)
     logging.debug('load warm up model '+config.init_parameters)
+    model_dict = model.state_dict()
     ptm = torch.load(config.init_parameters)
-    for k, v in model.state_dict().items():
-        if not k in ptm:
-            pass
-            # print("warning: not loading " + k, file=config.log_file)
-            logging.debug("warning: not loading " + k)
-        else:
-            # print("loading " + k, file=config.log_file)
-            logging.debug("loading " + k)
-            v.set_value(ptm[k])
+    state_dict = {k: v for k, v in ptm.items() if k in model_dict.keys()}
+
+    for k, v in state_dict.items():
+        logging.debug(f"loading {k}, shape:{v.shape}")
+    model_dict.update(state_dict)
+    model.load_state_dict(model_dict)
+else:
+    logging.error('no init_parameters!')
+    exit(1)
 
 test_dataset = SubmissionDatasetList(config.test_file, need_label=True, max_seq_len=config.max_seq_len)
 test_dataloader = DataLoader(test_dataset, config.test_batch_size)
