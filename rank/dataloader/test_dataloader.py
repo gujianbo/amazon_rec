@@ -4,6 +4,7 @@ sys.path.append("../..")
 import torch
 from torch.utils.data import Dataset
 from .train_dataloader import process_context_item
+from torch.utils.data import IterableDataset
 from utils.args import config
 import logging
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(message)s"
