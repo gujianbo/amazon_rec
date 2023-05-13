@@ -60,7 +60,10 @@ logging.info(f"load model to {device} done!")
 
 model.eval()
 fdout = open(config.output_file, "w")
+idx = 0
 for test_data_batch in test_dataloader:
+    if idx % 10000 == 0:
+        logging.info(f"{idx} batches inference done!")
     test_prev_ids, test_padding_mask, test_locale_code, test_dense_feat, test_candi_id, test_label = test_data_batch
     test_prev_ids, test_padding_mask, test_locale_code, test_dense_feat, test_candi_id = \
         test_prev_ids.to(device), test_padding_mask.to(device), test_locale_code.to(device), test_dense_feat.to(
@@ -83,7 +86,8 @@ for test_data_batch in test_dataloader:
         logit = test_logits[i]
         label = test_labels[i]
 
-        fdout.write(f"{prev_ids_str}\t{candi_id}\t{locale_code}\t{logit}\t{label}")
+        fdout.write(f"{prev_ids_str}\t{candi_id}\t{locale_code}\t{logit}\t{label}\n")
+    idx+=1
 fdout.close()
 logging.info("inference done!")
 
