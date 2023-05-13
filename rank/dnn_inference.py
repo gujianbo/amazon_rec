@@ -59,7 +59,7 @@ logging.info(f"load model to {device} done!")
 
 
 model.eval()
-fdout = open(config.output_file, "r")
+fdout = open(config.output_file, "w")
 for test_data_batch in test_dataloader:
     test_prev_ids, test_padding_mask, test_locale_code, test_dense_feat, test_candi_id, test_label = test_data_batch
     test_prev_ids, test_padding_mask, test_locale_code, test_dense_feat, test_candi_id = \
