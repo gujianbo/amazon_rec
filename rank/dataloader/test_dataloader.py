@@ -85,7 +85,6 @@ class SubmissionDatasetList(IterableDataset):
                     continue
 
                 prev_ids, candi, candi_id, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str, label = line_list
-                self.sid_list.append(prev_ids)
 
                 candi_id = int(candi_id)
                 candi_id = torch.tensor([candi_id], dtype=torch.int32)
