@@ -36,3 +36,9 @@ nohup python -u feat_extract_dnn.py --input_file ${root}/cand/candi_100_top100.l
   --item_feat_file ${root}/feat/item_feat.dict \
   --product_dict_file ${root}/data/product2id.dict \
   --root_path ${root} > log 2>&1 &
+
+nohup python -u feat_extract_dnn.py --input_file ${root}/cand/candi_100_top100.lo.test.flatten.csv \
+  --output_file ${root}/cand/candi_feat.test \
+  --item_feat_file ${root}/feat/item_feat.dict \
+  --product_dict_file ${root}/data/product2id.dict \
+  --root_path ${root} > log 2>&1 &
