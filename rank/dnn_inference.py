@@ -86,7 +86,7 @@ for test_data_batch in test_dataloader:
         logit = test_logits[i]
         label = test_labels[i]
 
-        fdout.write(f"{prev_ids_str}\t{candi_id}\t{locale_code}\t{logit}\t{label}\n")
+        fdout.write(f"{prev_ids_str}\t{candi_id}\t{locale_code}\t{label}\t{logitßß}\n")
     idx+=1
 fdout.close()
 logging.info("inference done!")
