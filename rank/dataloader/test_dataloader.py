@@ -71,10 +71,11 @@ class TestDatasetList(Dataset):
 
 
 class SubmissionDatasetList(IterableDataset):
-    def __init__(self, file, need_label=True, max_seq_len=128):
+    def __init__(self, file, need_label=True, max_seq_len=128, local_code=[1, 2, 3]):
         self.max_seq_len = max_seq_len
         self.file = file
         self.need_label = need_label
+        self.local_code = local_code
 
     def __iter__(self):
         logging.info('load submission file ' + self.file)
@@ -85,10 +86,12 @@ class SubmissionDatasetList(IterableDataset):
                     continue
 
                 prev_ids, candi, candi_id, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str, label = line_list
+                locale_code = int(locale_code)
+                if locale_code not in self.local_code:
+                    continue
 
                 candi_id = int(candi_id)
                 candi_id = torch.tensor([candi_id], dtype=torch.int32)
-                locale_code = int(locale_code)
                 locale_code = torch.tensor([locale_code], dtype=torch.int32)
                 item_feat = [float(item) for item in item_feat_str.split(",")]
                 session_stat_feat = [float(item) for item in session_stat_feat_str.split(",")]

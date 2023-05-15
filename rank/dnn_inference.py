@@ -49,7 +49,7 @@ else:
     logging.error('no init_parameters!')
     exit(1)
 
-test_dataset = SubmissionDatasetList(config.test_file, need_label=True, max_seq_len=config.max_seq_len)
+test_dataset = SubmissionDatasetList(config.test_file, need_label=True, max_seq_len=config.max_seq_len, local_code=[1, 2, 3])
 test_dataloader = DataLoader(test_dataset, config.test_batch_size)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
