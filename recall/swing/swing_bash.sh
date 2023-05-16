@@ -2,8 +2,7 @@
 
 root=$1
 echo ${root}
-raw_folder=$2
-echo ${raw_folder}
+
 out_folder=$3
 echo ${out_folder}
 
@@ -32,6 +31,3 @@ nohup python -u swing_sim_uniq.py --output_file ${root}/${out_folder}/swing.sim 
   --log_file ${root}/log/swing_sim.log > log 2>&1 &
 
 
-
-python -u swing_sim_uniq.py --output_file ${root}/${out_folder}/swing.sim \
-  --log_file ${root}/log/swing_sim.log
