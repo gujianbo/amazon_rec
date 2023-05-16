@@ -3,6 +3,9 @@
 root=$1
 echo ${root}
 
+country=$2
+echo ${country}
+
 out_folder=$3
 echo ${out_folder}
 
@@ -10,7 +13,7 @@ echo ${out_folder}
 # 生成item pair
 nohup python -u swing_gen_item_pair.py --input_file ${root}/data/sessions_train.csv \
   --output_file ${root}/${out_folder}/swing.sim \
-  --log_file ${root}/log/swing_pair.log > log 2>&1 &
+  --log_file ${root}/log/swing_pair.log --country ${country} > log 2>&1 &
 
 # 对item pair进行排序后uniq，删掉只有一个的pair
 for i in $(seq 0 9)
