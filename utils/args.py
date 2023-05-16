@@ -27,6 +27,11 @@ parser.add_argument('--if_hash_sample', type=int, default=0)
 parser.add_argument('--drop_no_hit', type=int, default=1)
 parser.add_argument('--neg_sample_rate', type=int, default=20)
 
+
+#node2vec
+parser.add_argument('--num_walks', type=int, default=60, help="num_walks")
+parser.add_argument('--use_rejection_sampling', type=int, default=0, help="use_rejection_sampling")
+
 # xgboost
 parser.add_argument('--scale_pos_weight', type=int, default=20)
 parser.add_argument('--num_boost_round', type=int, default=1000)
