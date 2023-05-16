@@ -18,6 +18,7 @@ def gen_item_edges(input_file, output_file):
         last_item = ""
         for item in session:
             if last_item == "":
+                last_item = item
                 continue
             edges.setdefault(last_item, dict())
             edges[last_item].setdefault(item, 0)
