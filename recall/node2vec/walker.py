@@ -42,7 +42,7 @@ class RandomWalker:
                 walk.append(random.choice(cur_nbrs))
             else:
                 break
-        fdout.write(' '.join(map(str, walk)))
+        fdout.write(' '.join(map(str, walk))+"\n")
         # return walk
 
     def node2vec_walk(self, walk_length, start_node, fdout):
@@ -68,7 +68,7 @@ class RandomWalker:
                     walk.append(next_node)
             else:
                 break
-        fdout.write(' '.join(map(str, walk)))
+        fdout.write(' '.join(map(str, walk))+"\n")
 
         # return walk
 
