@@ -11,6 +11,7 @@ parser.add_argument("--i2i_file", type=str, default='', help="i2i_file")
 parser.add_argument("--output_file", type=str, default='', help="output_file")
 parser.add_argument("--product_file", type=str, default='', help="product_file")
 parser.add_argument("--product_dict_file", type=str, default='', help="product_dict_file")
+parser.add_argument("--idproduct_dict_file", type=str, default='', help="idproduct_dict_file")
 parser.add_argument("--item_feat_file", type=str, default='', help="item_feat_file")
 parser.add_argument("--model_file", type=str, default='', help="model_file")
 parser.add_argument("--root_path", type=str, default='', help="root_path")
@@ -26,6 +27,7 @@ parser.add_argument('--if_hash_sample', type=int, default=0)
 
 parser.add_argument('--drop_no_hit', type=int, default=1)
 parser.add_argument('--neg_sample_rate', type=int, default=20)
+parser.add_argument('--dim', type=int, default=128)
 
 
 #node2vec
