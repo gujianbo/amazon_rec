@@ -28,6 +28,7 @@ parser.add_argument('--if_hash_sample', type=int, default=0)
 parser.add_argument('--drop_no_hit', type=int, default=1)
 parser.add_argument('--neg_sample_rate', type=int, default=20)
 parser.add_argument('--dim', type=int, default=128)
+parser.add_argument('--use_gpu', type=int, default=0)
 
 
 #node2vec
