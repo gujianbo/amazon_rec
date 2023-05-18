@@ -72,7 +72,7 @@ def search(input_file, output_file, dim, index_ip, product_dict, country, id2pro
                 for i in range(len(query_ids)):
                     query_id = query_ids[i]
                     for j in range(len(ids[i])):
-                        id = ids[i][j]
+                        id = id2product[ids[i][j]]
                         score = distances[i][j]
                         if query_id != id:
                             fdout.write(str(query_id) + "\t" + str(id) + "\t" + str(score) + "\n")
