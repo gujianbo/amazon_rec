@@ -4,7 +4,7 @@ from tqdm.auto import tqdm
 import cmath
 import pandas as pd
 import sys
-sys.path.append("..")
+sys.path.append("../..")
 from utils.args import config
 
 import logging
