@@ -21,6 +21,7 @@ def load_item_feat(item_feat_file):
 def load_i2i_dicts(path):
     covi = "covisit_pre"
     sw = "swing_pre"
+    sw2 = "swing"
     n2v = "n2v"
     co_global = load_i2i_dict(path+f"/{covi}/pairs.global.csv")
     logging.info("load_i2i_dict global done!")
@@ -39,17 +40,17 @@ def load_i2i_dicts(path):
 
     swing = load_i2i_dict(path+f"/{sw}/swing.sim.full", sep="\t")
     logging.info("load_i2i_dict swing done!")
-    swing_DE = load_i2i_dict(path+f"/{sw}_DE/swing.sim.full", sep="\t")
+    swing_DE = load_i2i_dict(path+f"/{sw2}_DE/swing.sim.full", sep="\t")
     logging.info("load_i2i_dict swing_DE done!")
-    swing_UK = load_i2i_dict(path+f"/{sw}_UK/swing.sim.full", sep="\t")
+    swing_UK = load_i2i_dict(path+f"/{sw2}_UK/swing.sim.full", sep="\t")
     logging.info("load_i2i_dict swing_UK done!")
-    swing_JP = load_i2i_dict(path+f"/{sw}_JP/swing.sim.full", sep="\t")
+    swing_JP = load_i2i_dict(path+f"/{sw2}_JP/swing.sim.full", sep="\t")
     logging.info("load_i2i_dict swing_JP done!")
-    swing_ES = load_i2i_dict(path+f"/{sw}_ES/swing.sim.full", sep="\t")
+    swing_ES = load_i2i_dict(path+f"/{sw2}_ES/swing.sim.full", sep="\t")
     logging.info("load_i2i_dict swing_ES done!")
-    swing_FR = load_i2i_dict(path+f"/{sw}_FR/swing.sim.full", sep="\t")
+    swing_FR = load_i2i_dict(path+f"/{sw2}_FR/swing.sim.full", sep="\t")
     logging.info("load_i2i_dict swing_FR done!")
-    swing_IT = load_i2i_dict(path+f"/{sw}_IT/swing.sim.full", sep="\t")
+    swing_IT = load_i2i_dict(path+f"/{sw2}_IT/swing.sim.full", sep="\t")
     logging.info("load_i2i_dict swing_IT done!")
 
     n2v_de = load_i2i_dict(path+f"/{n2v}/i2i_DE.txt", sep="\t")
