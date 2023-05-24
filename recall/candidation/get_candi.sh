@@ -45,6 +45,10 @@ nohup python -u flatten_candidation.py --input_file ${root}/cand/candi_100_top10
   --output_file ${root}/cand/candi_100_top100.lo.flatten.csv \
   --log_file ${root}/log/flatten.log > flatten.log 2>&1 &
 
+nohup python -u flatten_candidation.py --input_file ${root}/cand/candi_100_top200.v5.csv \
+  --output_file ${root}/cand/candi_100_top200.v5.flatten.csv \
+  --log_file ${root}/log/flatten.log > flatten.log 2>&1 &
+
 # 测试
 nohup python -u flatten_candidation.py --input_file ${root}/cand/candi_100_top100.lo.csv \
   --output_file ${root}/cand/candi_100_top100.lo.test.flatten.csv \

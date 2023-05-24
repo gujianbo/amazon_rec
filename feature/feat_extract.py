@@ -147,7 +147,7 @@ def interact_stat(prev_items, candi, i2i_dicts, locale):
         last_idx_span = -1
         re_cnt = 0
 
-    last_socre = []
+    last_score = []
     for item in prev_items[::-1][:20]:
         key = item + "," + candi
         if item > candi:
@@ -174,11 +174,11 @@ def interact_stat(prev_items, candi, i2i_dicts, locale):
         else:
             n2v_score = 0
 
-        last_socre += [co_score, co_local_score, swing_score, swing_local_score, n2v_score]
-    if len(last_socre) < 60:
-        last_socre += [0]*(60-len(last_socre))
+        last_score += [co_score, co_local_score, swing_score, swing_local_score, n2v_score]
+    if len(last_score) < 100:
+        last_score += [0]*(100-len(last_score))
     return [in_session, re_cnt, last_idx_span, max_local_co_score, max_co_score, max_swing_score,
-            sum_local_co_score/len(prev_items), sum_co_score/len(prev_items), sum_swing_score/len(prev_items)] + last_socre
+            sum_local_co_score/len(prev_items), sum_co_score/len(prev_items), sum_swing_score/len(prev_items)] + last_score
 
 
 def feat_extract(input_file, output_file, item_dict, i2i_dicts):
@@ -206,7 +206,28 @@ def feat_extract(input_file, output_file, item_dict, i2i_dicts):
         interact_feat = interact_stat(prev_items, candi, i2i_dicts, locale)
         interact_feat_str = ','.join([str(item) for item in interact_feat])
 
-        fdout.write(f"{row['prev_items']}\t{candi}\t{locale_code}\t{item_feat_str}\t{session_stat_feat_str}\t{interact_feat_str}\t{label}\n")
+        local_idx = [3, 6,
+                     10, 12, 15, 17, 20, 22, 25, 27, 30, 32, 35, 37, 40, 42, 45, 47, 50, 52, 55, 57,
+                     60, 62, 65, 67, 70, 72, 75, 77, 80, 82, 85, 87, 90, 92, 95, 97, 100, 102, 105, 107]
+        local_feat = [interact_feat[idx] for idx in local_idx]
+        empty_feat = [0.0] * 42
+        local_sec_feat = []
+        for i in range(locale_code - 1):
+            local_sec_feat += empty_feat
+        local_sec_feat += local_feat
+        for i in range(6 - locale_code):
+            local_sec_feat += empty_feat
+        local_sec_feat_str = ','.join([str(item) for item in local_sec_feat])
+        locale_code_feat = []
+        for i in range(locale_code - 1):
+            locale_code_feat += [0.0]
+        locale_code_feat += [1.0]
+        for i in range(6 - locale_code):
+            locale_code_feat += [0.0]
+        locale_code_feat_str = ','.join([str(item) for item in locale_code_feat])
+
+        fdout.write(f"{row['prev_items']}\t{candi}\t{locale_code}\t{item_feat_str}\t{session_stat_feat_str}\t{interact_feat_str}"
+                    f"\t{local_sec_feat_str}\t{locale_code_feat_str}\t{label}\n")
     fdout.close()
     fd.close()
 
