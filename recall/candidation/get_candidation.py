@@ -101,7 +101,7 @@ def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, single_topk, ou
         for i, aid in enumerate(aids1):
             # m = 0.1 + 0.9 * (ln - (i // 20)) / ln
             # candidates[aid] += m
-            candidates[aid] += 0.5
+            candidates[aid] += 0.5 #v5
 
         local_dict = recall_dict["co_" + locale]
         aids3 = list(itertools.chain(*[

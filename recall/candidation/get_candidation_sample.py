@@ -33,6 +33,7 @@ def load_hot(root_path):
 def load_recall(root_path):
     covi = "covisit_pre"
     sw = "swing_pre"
+    n2v = "n2v"
     import pickle
     co_global = pickle.load(open(f'{root_path}/{covi}/co.global.dict', 'rb'))
     print("load_recall global done!")
@@ -51,6 +52,19 @@ def load_recall(root_path):
     swing = pickle.load(open(f'{root_path}/{sw}/swing.sim', 'rb'))
     print("load_recall swing done!")
 
+    n2v_de = pickle.load(open(f'{root_path}/{n2v}/n2v_DE.dict', 'rb'))
+    print("load_recall n2v_DE done!")
+    n2v_jp = pickle.load(open(f'{root_path}/{n2v}/n2v_JP.dict', 'rb'))
+    print("load_recall n2v_JP done!")
+    n2v_uk = pickle.load(open(f'{root_path}/{n2v}/n2v_UK.dict', 'rb'))
+    print("load_recall n2v_UK done!")
+    n2v_es = pickle.load(open(f'{root_path}/{n2v}/n2v_ES.dict', 'rb'))
+    print("load_recall n2v_ES done!")
+    n2v_fr = pickle.load(open(f'{root_path}/{n2v}/n2v_FR.dict', 'rb'))
+    print("load_recall n2v_FR done!")
+    n2v_it = pickle.load(open(f'{root_path}/{n2v}/n2v_IT.dict', 'rb'))
+    print("load_recall n2v_IT done!")
+
     recall_dict = dict()
     recall_dict["co_global"] = co_global
     recall_dict["co_DE"] = co_de
@@ -60,6 +74,12 @@ def load_recall(root_path):
     recall_dict["co_ES"] = co_es
     recall_dict["co_FR"] = co_fr
     recall_dict["swing"] = swing
+    recall_dict["n2v_DE"] = n2v_de
+    recall_dict["n2v_JP"] = n2v_jp
+    recall_dict["n2v_UK"] = n2v_uk
+    recall_dict["n2v_ES"] = n2v_es
+    recall_dict["n2v_FR"] = n2v_fr
+    recall_dict["n2v_IT"] = n2v_it
     return recall_dict
 
 
@@ -85,8 +105,9 @@ def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, single_topk, ou
             [rec_id for rec_id in recall_dict["swing"][aid] if rec_id in pro_dict and locale in pro_dict[rec_id]][:single_topk]
             for aid in session[::-1] if aid in recall_dict["swing"]]))
         for i, aid in enumerate(aids1):
-            m = 0.1 + 0.9 * (ln - (i // 20)) / ln
-            candidates[aid] += m
+            # m = 0.1 + 0.9 * (ln - (i // 20)) / ln
+            # candidates[aid] += m
+            candidates[aid] += 0.5 #v5
 
         local_dict = recall_dict["co_" + locale]
         aids3 = list(itertools.chain(*[
@@ -94,6 +115,14 @@ def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, single_topk, ou
              rec_id in pro_dict and locale in pro_dict[rec_id]][:single_topk]
             for aid in session[::-1] if aid in local_dict]))
         for i, aid in enumerate(aids3):
+            candidates[aid] += 0.5
+
+        n2v_dict = recall_dict["n2v_" + locale]
+        aids4 = list(itertools.chain(*[
+            [rec_id for rec_id in n2v_dict[aid] if
+             rec_id in pro_dict and locale in pro_dict[rec_id]][:single_topk]
+            for aid in session[::-1] if aid in n2v_dict]))
+        for i, aid in enumerate(aids4):
             candidates[aid] += 0.5
 
         aids2 = list(itertools.chain(*[
