@@ -21,6 +21,7 @@ def load_item_feat(item_feat_file):
 def load_i2i_dicts(path):
     covi = "covisit_pre"
     sw = "swing_pre"
+    n2v = "n2v"
     co_global = load_i2i_dict(path+f"/{covi}/pairs.global.csv")
     logging.info("load_i2i_dict global done!")
     co_DE = load_i2i_dict(path+f"/{covi}/pairs.DE.csv")
@@ -35,10 +36,38 @@ def load_i2i_dicts(path):
     logging.info("load_i2i_dict FR done!")
     co_IT = load_i2i_dict(path+f"/{covi}/pairs.IT.csv")
     logging.info("load_i2i_dict IT done!")
+
     swing = load_i2i_dict(path+f"/{sw}/swing.sim.full", sep="\t")
     logging.info("load_i2i_dict swing done!")
-    return {"co_global": co_global, "co_DE": co_DE, "co_JP": co_JP, "co_UK": co_UK,
-            "co_ES": co_ES, "co_FR": co_FR, "co_IT": co_IT, "swing": swing}
+    swing_DE = load_i2i_dict(path+f"/{sw}_DE/swing.sim.full", sep="\t")
+    logging.info("load_i2i_dict swing_DE done!")
+    swing_UK = load_i2i_dict(path+f"/{sw}_UK/swing.sim.full", sep="\t")
+    logging.info("load_i2i_dict swing_UK done!")
+    swing_JP = load_i2i_dict(path+f"/{sw}_JP/swing.sim.full", sep="\t")
+    logging.info("load_i2i_dict swing_JP done!")
+    swing_ES = load_i2i_dict(path+f"/{sw}_ES/swing.sim.full", sep="\t")
+    logging.info("load_i2i_dict swing_ES done!")
+    swing_FR = load_i2i_dict(path+f"/{sw}_FR/swing.sim.full", sep="\t")
+    logging.info("load_i2i_dict swing_FR done!")
+    swing_IT = load_i2i_dict(path+f"/{sw}_IT/swing.sim.full", sep="\t")
+    logging.info("load_i2i_dict swing_IT done!")
+
+    n2v_de = load_i2i_dict(path+f"/{n2v}/i2i_DE.txt", sep="\t")
+    logging.info("load_i2i_dict n2v_de done!")
+    n2v_jp = load_i2i_dict(path+f"/{n2v}/i2i_JP.txt", sep="\t")
+    logging.info("load_i2i_dict n2v_jp done!")
+    n2v_uk = load_i2i_dict(path+f"/{n2v}/i2i_UK.txt", sep="\t")
+    logging.info("load_i2i_dict n2v_uk done!")
+    n2v_es = load_i2i_dict(path+f"/{n2v}/i2i_ES.txt", sep="\t")
+    logging.info("load_i2i_dict n2v_fr done!")
+    n2v_fr = load_i2i_dict(path+f"/{n2v}/i2i_FR.txt", sep="\t")
+    logging.info("load_i2i_dict n2v_fr done!")
+    n2v_it = load_i2i_dict(path+f"/{n2v}/i2i_IT.txt", sep="\t")
+    logging.info("load_i2i_dict n2v_it done!")
+    return {"co_global": co_global, "co_DE": co_DE, "co_JP": co_JP, "co_UK": co_UK, "co_ES": co_ES, "co_FR": co_FR, "co_IT": co_IT,
+            "swing": swing, "swing_DE": swing_DE, "swing_JP": swing_JP, "swing_UK": swing_UK, "swing_ES": swing_ES, "swing_FR": swing_FR, "swing_IT": swing_IT,
+            "n2v_DE": n2v_de, "n2v_JP": n2v_jp, "n2v_UK": n2v_uk, "n2v_ES": n2v_es, "n2v_FR": n2v_fr, "n2v_IT": n2v_it
+            }
 
 
 def load_i2i_dict(file, sep=","):
@@ -135,7 +164,17 @@ def interact_stat(prev_items, candi, i2i_dicts, locale):
             swing_score = i2i_dicts["swing"][key]
         else:
             swing_score = 0
-        last_socre += [co_score, co_local_score, swing_score]
+        if key in i2i_dicts["swing_" + locale]:
+            swing_local_score = i2i_dicts["swing_" + locale][key]
+        else:
+            swing_local_score = 0
+
+        if key in i2i_dicts["n2v_" + locale]:
+            n2v_score = i2i_dicts["n2v_" + locale][key]
+        else:
+            n2v_score = 0
+
+        last_socre += [co_score, co_local_score, swing_score, swing_local_score, n2v_score]
     if len(last_socre) < 60:
         last_socre += [0]*(60-len(last_socre))
     return [in_session, re_cnt, last_idx_span, max_local_co_score, max_co_score, max_swing_score,

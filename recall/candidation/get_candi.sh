@@ -64,3 +64,9 @@ nohup python -u get_candidation.py --input_file ${root}/data/sessions_train.csv 
   --product_file ${root}/data/products_train.csv \
   --root_path ${root} --topk 100 \
   --log_file ${root}/log/candi.log >> candi.log 2>&1 &
+
+nohup python -u get_candidation_sample.py --input_file ${root}/data/sessions_train.csv \
+  --output_file ${root}/cand/candi_100_all.sample.v5.csv --single_topk 100 \
+  --product_file ${root}/data/products_train.csv \
+  --root_path ${root} --topk 200 --sample_cnt 20\
+  --log_file ${root}/log/candi.log >> candi.log 2>&1 &
