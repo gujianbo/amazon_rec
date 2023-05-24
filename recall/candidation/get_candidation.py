@@ -99,8 +99,9 @@ def get_candi(input_file, recall_dict, pro_dict, hot_dict, topk, single_topk, ou
             [rec_id for rec_id in recall_dict["swing"][aid] if rec_id in pro_dict and locale in pro_dict[rec_id]][:single_topk]
             for aid in session[::-1] if aid in recall_dict["swing"]]))
         for i, aid in enumerate(aids1):
-            m = 0.1 + 0.9 * (ln - (i // 20)) / ln
-            candidates[aid] += m
+            # m = 0.1 + 0.9 * (ln - (i // 20)) / ln
+            # candidates[aid] += m
+            candidates[aid] += 0.5
 
         local_dict = recall_dict["co_" + locale]
         aids3 = list(itertools.chain(*[
