@@ -11,7 +11,7 @@ LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(mes
 logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FORMAT)
 
 
-def slice_data(input_file, train_file, test_file, sample_cnt, seed):
+def slice_data(input_file, train_file, test_file, sample_cnt, seed, if_dnn=0):
     # fdout_train = open(train_file+".1.1", "w")
     # fdout_test = open(test_file+".1.1", "w")
     # cnt_train = 0
@@ -32,8 +32,12 @@ def slice_data(input_file, train_file, test_file, sample_cnt, seed):
         for line in tqdm(fd, ):
             line = line.strip()
             try:
-                (prev_items, candi, candi_id, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str,
-                 local_sec_feat_str, locale_code_feat_str, label) = line.split("\t")
+                if if_dnn == 1:
+                    (prev_items, candi, candi_id, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str,
+                     local_sec_feat_str, locale_code_feat_str, label) = line.split("\t")
+                else:
+                    (prev_items, candi, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str,
+                     local_sec_feat_str, locale_code_feat_str, label) = line.split("\t")
             except:
                 print(line)
                 exit(1)
@@ -111,4 +115,4 @@ if __name__ == "__main__":
     logging.info(f"test_file:{config.test_file}")
     logging.info(f"sample_cnt:{config.sample_cnt}")
     logging.info(f"seed:{config.seed}")
-    slice_data(config.input_file, config.train_file, config.test_file, config.sample_cnt, config.seed)
+    slice_data(config.input_file, config.train_file, config.test_file, config.sample_cnt, config.seed, config.if_dnn)

@@ -62,6 +62,7 @@ parser.add_argument('--eval_step', type=int, default=10000, help="eval_step")
 parser.add_argument('--save_step', type=int, default=10000, help="save_step")
 parser.add_argument('--save_path', type=str, default="", help="save_path")
 parser.add_argument('--step_lr_size', type=int, default=2, help="step_lr_size")
+parser.add_argument('--if_dnn', type=int, default=0, help="if_dnn")
 
 config = parser.parse_args()
 
