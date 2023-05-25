@@ -60,7 +60,7 @@ def load_i2i_dicts(path):
     n2v_uk = load_i2i_dict(path+f"/{n2v}/i2i_UK.txt", sep="\t")
     logging.info("load_i2i_dict n2v_uk done!")
     n2v_es = load_i2i_dict(path+f"/{n2v}/i2i_ES.txt", sep="\t")
-    logging.info("load_i2i_dict n2v_fr done!")
+    logging.info("load_i2i_dict n2v_es done!")
     n2v_fr = load_i2i_dict(path+f"/{n2v}/i2i_FR.txt", sep="\t")
     logging.info("load_i2i_dict n2v_fr done!")
     n2v_it = load_i2i_dict(path+f"/{n2v}/i2i_IT.txt", sep="\t")

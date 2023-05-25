@@ -23,3 +23,7 @@ nohup python -u xgb_predict.py --input_file ${root}/cand/submission_feat_100.pre
 # 格式化提交数据，输出parquet
 python format_submission.py --input_file ${root}/cand/submission_feat_100.pre.pred \
   --output_file ${root}/cand/submission_100.pre.parquet
+
+nohup python -u slice_data.py --input_file /home/zjlab/data/amazon/candi_100_top200.v5.feat \
+  --train_file /home/zjlab/data/amazon/train_data/train --test_file /home/zjlab/data/amazon/train_data/test \
+  --sample_cnt 20 > log 2>&1 &

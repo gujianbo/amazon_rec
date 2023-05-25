@@ -31,12 +31,14 @@ class Iterator(xgboost.DataIter):
             for line in tqdm(fd, desc="load train"):
                 line = line.strip()
                 (prev_items, candi, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str,
-                 label) = line.split("\t")
+                 local_sec_feat_str, locale_code_feat_str, label) = line.split("\t")
                 feat = []
-                feat += [float(locale_code)]
+                # feat += [float(locale_code)]
                 feat += [float(item) for item in item_feat_str.split(",")]
                 feat += [float(item) for item in session_stat_feat_str.split(",")]
                 feat += [float(item) for item in interact_feat_str.split(",")]
+                feat += [float(item) for item in local_sec_feat_str.split(",")]
+                feat += [float(item) for item in locale_code_feat_str.split(",")]
                 train_x_arr.append(feat)
                 train_y_arr.append([float(label)])
         X = np.array(train_x_arr)

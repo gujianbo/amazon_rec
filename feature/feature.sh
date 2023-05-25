@@ -16,6 +16,10 @@ nohup python -u feat_extract.py --input_file ${root}/cand/candi_100_top200.v5.fl
   --output_file ${root}/cand/candi_100_top200.v5.feat \
   --item_feat_file ${root}/feat/item_feat.dict \
   --root_path ${root} > log 2>&1 &
+nohup python -u feat_extract.py --input_file ${root}/cand/candi_100_top200.v5.flatten.csv \
+  --output_file /home/zjlab/data/amazon/candi_100_top200.v5.feat \
+  --item_feat_file ${root}/feat/item_feat.dict \
+  --root_path ${root} > log 2>&1 &
 
 # 测试数据
 nohup python -u feat_extract.py --input_file ${root}/cand/candi_100_top100.pre.test.flatten.csv \
