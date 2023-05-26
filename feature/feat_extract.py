@@ -205,11 +205,14 @@ def feat_extract(input_file, output_file, item_dict, i2i_dicts):
         session_stat_feat_str = ','.join([str(item) for item in session_stat_feat])
 
         interact_feat = interact_stat(prev_items, candi, i2i_dicts, locale)
-        interact_feat_str = ','.join([str(item) for item in interact_feat])
+        # interact_feat_str = ','.join([str(item) for item in interact_feat])
 
         local_idx = [3, 6,
                      10, 12, 15, 17, 20, 22, 25, 27, 30, 32, 35, 37, 40, 42, 45, 47, 50, 52, 55, 57,
                      60, 62, 65, 67, 70, 72, 75, 77, 80, 82, 85, 87, 90, 92, 95, 97, 100, 102, 105, 107]
+
+        interact_feat_glo = [interact_feat[idx] for idx in range(len(interact_feat)) if idx not in local_idx]
+        interact_feat_glo_str = ','.join([str(item) for item in interact_feat_glo])
         local_feat = [interact_feat[idx] for idx in local_idx]
         empty_feat = [0.0] * 42
         local_sec_feat = []
@@ -227,7 +230,7 @@ def feat_extract(input_file, output_file, item_dict, i2i_dicts):
             locale_code_feat += [0.0]
         locale_code_feat_str = ','.join([str(item) for item in locale_code_feat])
 
-        fdout.write(f"{row['prev_items']}\t{candi}\t{locale_code}\t{item_feat_str}\t{session_stat_feat_str}\t{interact_feat_str}"
+        fdout.write(f"{row['prev_items']}\t{candi}\t{locale_code}\t{item_feat_str}\t{session_stat_feat_str}\t{interact_feat_glo_str}"
                     f"\t{local_sec_feat_str}\t{locale_code_feat_str}\t{label}\n")
     fdout.close()
     fd.close()
