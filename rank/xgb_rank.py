@@ -40,7 +40,7 @@ class Iterator(xgboost.DataIter):
                 feat += [float(item) for item in local_sec_feat_str.split(",")]
                 feat += [float(item) for item in locale_code_feat_str.split(",")]
                 # print(f"len:{len(feat)}")
-                assert len(feat) == 386
+                assert len(feat) == 344
                 train_x_arr.append(feat)
                 train_y_arr.append([float(label)])
         X = np.array(train_x_arr)
