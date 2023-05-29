@@ -54,6 +54,10 @@ nohup python -u flatten_candidation.py --input_file ${root}/cand/candi_100_top10
   --output_file ${root}/cand/candi_100_top100.lo.test.flatten.csv \
   --log_file ${root}/log/flatten.log --neg_sample_rate 0 \
   --if_hash_sample 1 --sample_cnt 20 > flatten.log 2>&1 &
+nohup python -u flatten_candidation.py --input_file ${root}/cand/candi_100_top200.v5.csv \
+  --output_file ${root}/cand/candi_100_top200.v5.test.flatten.csv \
+  --log_file ${root}/log/flatten.log --neg_sample_rate 0 \
+  --if_hash_sample 1 --sample_cnt 20 > flatten.log 2>&1 &
 
 
 

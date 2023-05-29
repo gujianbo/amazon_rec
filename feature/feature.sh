@@ -26,6 +26,11 @@ nohup python -u feat_extract.py --input_file ${root}/cand/candi_100_top100.pre.t
   --output_file ${root}/cand/candi_feat_100.pre.test \
   --item_feat_file ${root}/feat/item_feat.dict \
   --root_path ${root} > log 2>&1 &
+# 测试数据
+nohup python -u feat_extract.py --input_file ${root}/cand/candi_100_top200.v5.test.flatten.csv \
+  --output_file ${root}/cand/candi_100_top200.v5.test \
+  --item_feat_file ${root}/feat/item_feat.dict \
+  --root_path ${root} > log 2>&1 &
 
 # 提交数据
 nohup python -u feat_extract.py --input_file ${root}/cand/submission_100_top100.flatten.csv \

@@ -23,8 +23,10 @@ def predict_test(input_file, output_file, model_file, buf_len=1000):
     with open(input_file, "r") as fd:
         for line in tqdm(fd, desc="load train"):
             line = line.strip()
+            # (prev_items, candi, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str,
+            #  label) = line.split("\t")
             (prev_items, candi, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str,
-             label) = line.split("\t")
+             local_sec_feat_str, locale_code_feat_str, label) = line.split("\t")
             if locale_code in ['4', '5', '6']:
                 continue
             if len(buf) >= buf_len:
@@ -37,11 +39,20 @@ def predict_test(input_file, output_file, model_file, buf_len=1000):
                     fdout.write(f"{tmp_prev_items}\t{tmp_candi}\t{tmp_locale_code}\t{tmp_label}\t{score}\n")
                 buf = []
                 train_x_arr = []
+            # feat = []
+            # feat += [float(locale_code)]
+            # feat += [float(item) for item in item_feat_str.split(",")]
+            # feat += [float(item) for item in session_stat_feat_str.split(",")]
+            # feat += [float(item) for item in interact_feat_str.split(",")]
             feat = []
-            feat += [float(locale_code)]
+            # feat += [float(locale_code)]
             feat += [float(item) for item in item_feat_str.split(",")]
             feat += [float(item) for item in session_stat_feat_str.split(",")]
             feat += [float(item) for item in interact_feat_str.split(",")]
+            feat += [float(item) for item in local_sec_feat_str.split(",")]
+            feat += [float(item) for item in locale_code_feat_str.split(",")]
+            assert len(feat) == 344
+
             train_x_arr.append(feat)
             buf.append([prev_items, candi, locale_code, float(label)])
 
