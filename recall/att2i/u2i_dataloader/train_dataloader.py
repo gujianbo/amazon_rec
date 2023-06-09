@@ -31,12 +31,11 @@ locale_dict = {"DE": 1, "JP": 2, "UK": 3, "ES": 4, "FR": 5, "IT": 6}
 
 
 class TrainDataset(IterableDataset):
-    def __init__(self, file_path, buffer_size=10000, need_label=True, max_seq_len=128):
+    def __init__(self, file_path, buffer_size=10000, max_seq_len=128):
         self.max_seq_len = max_seq_len
         self.file_path = file_path
         self.files = os.listdir(self.file_path)
         self.buffer_size = buffer_size
-        self.need_label = need_label
         self.ignore_just_label = False
 
     def __iter__(self):
