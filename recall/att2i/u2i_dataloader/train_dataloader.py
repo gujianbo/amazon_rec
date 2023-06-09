@@ -27,6 +27,9 @@ def process_context_item(prev_ids, max_seq_len=128):
     return prev_ids, padding_mask
 
 
+locale_dict = {"DE": 1, "JP": 2, "UK": 3, "ES": 4, "FR": 5, "IT": 6}
+
+
 class TrainDatasetListBuffer(IterableDataset):
     def __init__(self, file_path, buffer_size=10000, need_label=True, max_seq_len=128):
         self.max_seq_len = max_seq_len
@@ -35,60 +38,36 @@ class TrainDatasetListBuffer(IterableDataset):
         self.buffer_size = buffer_size
         self.need_label = need_label
         self.ignore_just_label = False
-        random.shuffle(self.files)
-        self.files = [self.file_path+"/"+f for f in self.files]
 
     def __iter__(self):
         buffer = []
-        for file in self.files:
-            logging.info('load file ' + file)
-            line_num = 0
-            with open(file, "r") as fd:
-                for line in fd:
-                    line_num += 1
-                    if line_num % 100000 == 0:
-                        logging.info(f"file {file}: {line_num} lines scaned!")
-                    line_list = line.strip('\n').split('\t')
-                    if len(line_list) < 8:
-                        continue
-                    prev_ids, candi, candi_id, locale_code, item_feat_str, session_stat_feat_str, interact_feat_str, label = line_list
-                    candi_id = int(candi_id)
-                    candi_id = torch.tensor([candi_id], dtype=torch.int32)
-                    locale_code = int(locale_code)
-                    locale_code = torch.tensor([locale_code], dtype=torch.int32)
+        logging.info('load file ' + self.file_path)
+        line_num = 0
+        with open(self.file_path, "r") as fd:
+            for line in fd:
+                line_num += 1
+                if line_num % 100000 == 0:
+                    logging.info(f"file {self.file_path}: {line_num} lines scaned!")
+                line_list = line.strip('\n').split('\t')
+                if len(line_list) < 3:
+                    continue
+                id_list, candi, locale = line_list
+                locale_code = locale_dict[locale]
+                candi_id = int(candi_id)
+                candi_id = torch.tensor([candi_id], dtype=torch.int32)
+                locale_code = int(locale_code)
+                locale_code = torch.tensor([locale_code], dtype=torch.int32)
 
-                    item_feat = [float(item) for item in item_feat_str.split(",")]
-                    session_stat_feat = [float(item) for item in session_stat_feat_str.split(",")]
-                    interact_feat = [float(item) for item in interact_feat_str.split(",")]
-                    dense_feat = []
-                    dense_feat += item_feat
-                    dense_feat += session_stat_feat
-                    dense_feat += interact_feat
+                prev_ids = [int(item) for item in id_list.split(",")]
 
-                    local_idx = [3, 6, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49, 52, 55, 58, 61, 64, 67]
-                    local_feat = [interact_feat[idx] for idx in local_idx]
-                    empty_feat = [0.0] * 22
-                    local_sec_feat = []
-                    for i in range(locale_code - 1):
-                        local_sec_feat += empty_feat
-                    local_sec_feat += local_feat
-                    for i in range(6 - locale_code):
-                        local_sec_feat += empty_feat
+                prev_ids, padding_mask = process_context_item(prev_ids, self.max_seq_len)
 
-                    dense_feat += local_sec_feat
-                    dense_feat = torch.tensor(dense_feat, dtype=torch.float32)
-
-                    prev_ids = [int(item) for item in prev_ids.split(",")]
-                    label = float(label)
-
-                    prev_ids, padding_mask = process_context_item(prev_ids, self.max_seq_len)
-
-                    if len(buffer) >= self.buffer_size:
-                        idx = random.randint(0, self.buffer_size - 1)
-                        # logging.info(f"item:{buffer[idx]}")
-                        yield buffer[idx]
-                        buffer[idx] = [prev_ids, padding_mask, locale_code, dense_feat, candi_id, label]
-                    else:
-                        buffer.append([prev_ids, padding_mask, locale_code, dense_feat, candi_id, label])
-                while len(buffer) > 0:
-                    yield buffer.pop()
+                if len(buffer) >= self.buffer_size:
+                    idx = random.randint(0, self.buffer_size - 1)
+                    # logging.info(f"item:{buffer[idx]}")
+                    yield buffer[idx]
+                    buffer[idx] = [prev_ids, padding_mask, candi_id, locale_code]
+                else:
+                    buffer.append([prev_ids, padding_mask, candi_id, locale_code])
+            while len(buffer) > 0:
+                yield buffer.pop()

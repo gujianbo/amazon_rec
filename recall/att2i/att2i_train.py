@@ -82,6 +82,8 @@ for round in range(config.epoch):
         id_list, padding_mask, item_list, country_list = train_data_batch
         id_list, padding_mask, item_list, country_list = \
             id_list.to(device), padding_mask.to(device), item_list.to(device), country_list.to(device)
+        if config.log_level >= 1:
+            logging.info(f"id_list.shape:{id_list.shape}, padding_mask:{padding_mask.shape}, item_list.shape:{item_list.shape}, country_list.shape:{country_list.shape}")
         user_vec, item_vec, loss = model(id_list, padding_mask, country_list=country_list, item_list=item_list)
 
         loss.backward()
