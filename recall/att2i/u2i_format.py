@@ -12,7 +12,17 @@ LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s[line:%(lineno)d]- %(mes
 logging.basicConfig(level=logging.DEBUG, format=LOG_FORMAT)
 
 
-def format(input_file, is_train=1, train_file=None, test_file=None, sample_cnt=None):
+def map_id(prev_items, candi, product2id):
+    assert candi in product2id
+    candi_id = str(product2id[candi])
+    prev_ids = []
+    for item in prev_items:
+        assert item in product2id
+        prev_ids.append(str(product2id[item]))
+    return ",".join(prev_ids), candi_id
+
+
+def format(input_file, is_train=1, train_file=None, test_file=None, sample_cnt=None, product2id=None):
     session_pd = pd.read_csv(input_file, sep=",")
     train_fd = open(train_file, "w")
     if is_train == 1:
@@ -30,16 +40,17 @@ def format(input_file, is_train=1, train_file=None, test_file=None, sample_cnt=N
         else:
             id_list = session
             candi = row["next_item"]
-        id_list_feat = ",".join(id_list)
+
+        id_list_feat, candi_id = map_id(id_list, candi, product2id)
 
         if is_train == 1:
             hash_val = int(hashlib.md5((id_list_feat + str(config.seed)).encode('utf8')).hexdigest()[0:10], 16) % sample_cnt
             if hash_val == 0:
-                test_fd.write(f"{id_list_feat}\t{candi}\t{locale}\n")
+                test_fd.write(f"{id_list_feat}\t{candi_id}\t{locale}\n")
             else:
-                train_fd.write(f"{id_list_feat}\t{candi}\t{locale}\n")
+                train_fd.write(f"{id_list_feat}\t{candi_id}\t{locale}\n")
         else:
-            train_fd.write(f"{id_list_feat}\t{candi}\t{locale}\n")
+            train_fd.write(f"{id_list_feat}\t{candi_id}\t{locale}\n")
 
 
 if __name__ == "__main__":
@@ -47,5 +58,9 @@ if __name__ == "__main__":
     logging.info("train_file:" + config.train_file)
     logging.info("test_file:" + config.test_file)
     logging.info("is_train:" + str(config.is_train))
+    logging.info("product2id:" + str(config.product2id))
 
-    format(config.input_file, config.is_train, config.train_file, config.test_file, config.sample_cnt)
+    import pickle
+    product2id = pickle.load(open(config.product_dict_file, 'rb'))
+
+    format(config.input_file, config.is_train, config.train_file, config.test_file, config.sample_cnt, config.product2id)
