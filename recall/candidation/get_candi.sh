@@ -40,6 +40,12 @@ nohup python -u get_candidation.py --input_file ${root}/data/sessions_test_task1
   --product_file ${root}/data/products_train.csv --is_train 0 \
   --root_path ${root} --topk 100 \
   --log_file ${root}/log/candi.log >> candi.log 2>&1 &
+# 给提交数据预测
+nohup python -u get_candidation.py --input_file ${root}/data/sessions_test_task1.csv \
+  --output_file ${root}/cand/submission_100_top200.v5.csv --single_topk 100 \
+  --product_file ${root}/data/products_train.csv --is_train 0 \
+  --root_path ${root} --topk 200 \
+  --log_file ${root}/log/candi.log >> candi.log 2>&1 &
 
 nohup python -u flatten_candidation.py --input_file ${root}/cand/candi_100_top100.lo.csv \
   --output_file ${root}/cand/candi_100_top100.lo.flatten.csv \
@@ -64,6 +70,11 @@ nohup python -u flatten_candidation.py --input_file ${root}/cand/candi_100_top20
 # 提交
 nohup python -u flatten_candidation.py --input_file ${root}/cand/submission_100_top100.pre.csv \
   --output_file ${root}/cand/submission_100_top100.pre.flatten.csv \
+  --log_file ${root}/log/flatten.log --neg_sample_rate 0 --drop_no_hit 0 > flatten.log 2>&1 &
+
+# 提交
+nohup python -u flatten_candidation.py --input_file ${root}/cand/submission_100_top200.v5.csv \
+  --output_file ${root}/cand/submission_100_top200.v5.flatten.csv \
   --log_file ${root}/log/flatten.log --neg_sample_rate 0 --drop_no_hit 0 > flatten.log 2>&1 &
 
 
