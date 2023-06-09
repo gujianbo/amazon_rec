@@ -12,7 +12,7 @@ logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FO
 
 locale_dict = {"DE": 1, "JP": 2, "UK": 3, "ES": 4, "FR": 5, "IT": 6}
 
-class TestDatasetList(Dataset):
+class TestDataset(Dataset):
     def __init__(self, file, need_label=True, max_seq_len=128):
         self.max_seq_len = max_seq_len
         self.file = file
