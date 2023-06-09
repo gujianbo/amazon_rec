@@ -46,6 +46,6 @@ if __name__ == "__main__":
     logging.info("input_file:" + config.input_file)
     logging.info("train_file:" + config.train_file)
     logging.info("test_file:" + config.test_file)
-    logging.info("is_train:" + config.is_train)
+    logging.info("is_train:" + str(config.is_train))
 
     format(config.input_file, config.is_train, config.train_file, config.test_file, config.sample_cnt)
