@@ -89,7 +89,7 @@ class AttentionU2I(nn.Module):
             i_vec = self.item_vec(item_list, country_list)
             i_vec = i_vec.squeeze()
             batch_size = user_vec.shape[0]
-            label = torch.arange(batch_size)
+            label = torch.arange(batch_size).to(id_list.device)
             sim = user_vec.mm(i_vec.transpose(0, 1))
             print("sim.shape:", sim.shape)
             print("label.shape:", label.shape)
