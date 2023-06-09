@@ -34,7 +34,6 @@ class TrainDataset(IterableDataset):
     def __init__(self, file_path, buffer_size=10000, max_seq_len=128):
         self.max_seq_len = max_seq_len
         self.file_path = file_path
-        self.files = os.listdir(self.file_path)
         self.buffer_size = buffer_size
         self.ignore_just_label = False
 
