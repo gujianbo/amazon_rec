@@ -49,7 +49,7 @@ class TrainDataset(IterableDataset):
                 line_list = line.strip('\n').split('\t')
                 if len(line_list) < 3:
                     continue
-                id_list, candi, locale = line_list
+                id_list, candi_id, locale = line_list
                 locale_code = locale_dict[locale]
                 candi_id = int(candi_id)
                 candi_id = torch.tensor([candi_id], dtype=torch.int32)
