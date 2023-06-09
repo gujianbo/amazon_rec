@@ -63,4 +63,4 @@ if __name__ == "__main__":
     import pickle
     product2id = pickle.load(open(config.product_dict_file, 'rb'))
 
-    format(config.input_file, config.is_train, config.train_file, config.test_file, config.sample_cnt, config.product_dict_file)
+    format(config.input_file, config.is_train, config.train_file, config.test_file, config.sample_cnt, product2id)
