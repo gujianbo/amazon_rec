@@ -58,9 +58,9 @@ if __name__ == "__main__":
     logging.info("train_file:" + config.train_file)
     logging.info("test_file:" + config.test_file)
     logging.info("is_train:" + str(config.is_train))
-    logging.info("product2id:" + str(config.product2id))
+    logging.info("product2id:" + str(config.product_dict_file))
 
     import pickle
     product2id = pickle.load(open(config.product_dict_file, 'rb'))
 
-    format(config.input_file, config.is_train, config.train_file, config.test_file, config.sample_cnt, config.product2id)
+    format(config.input_file, config.is_train, config.train_file, config.test_file, config.sample_cnt, config.product_dict_file)
