@@ -64,6 +64,9 @@ parser.add_argument('--save_path', type=str, default="", help="save_path")
 parser.add_argument('--step_lr_size', type=int, default=2, help="step_lr_size")
 parser.add_argument('--if_dnn', type=int, default=0, help="if_dnn")
 
+parser.add_argument('--u2i_hidden_size', type=int, default=128, help="u2i_hidden_size")
+parser.add_argument('--u2i_emb_size', type=int, default=64, help="u2i_emb_size")
+
 config = parser.parse_args()
 
 config._PAD_ = 0
