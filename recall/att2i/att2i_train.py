@@ -98,6 +98,10 @@ for round in range(config.epoch):
                 test_id_list, test_padding_mask, test_item_list, test_country_list = test_data_batch
                 test_id_list, test_padding_mask, test_item_list, test_country_list = \
                     test_id_list.to(device), test_padding_mask.to(device), test_item_list.to(device), test_country_list.to(device)
+                if config.log_level >= 1:
+                    logging.info(
+                        f"test_id_list.shape:{test_id_list.shape}, test_padding_mask:{test_padding_mask.shape}, "
+                        f"test_item_list.shape:{test_item_list.shape}, test_country_list.shape:{test_country_list.shape}")
                 _, _, test_loss = model(test_id_list, test_padding_mask, country_list=test_country_list, item_list=test_item_list)
                 test_loss_sum += test_loss.cpu().item()
                 test_cnt += 1
