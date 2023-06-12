@@ -46,5 +46,5 @@ class TestDataset(Dataset):
 
                 prev_ids, padding_mask = process_context_item(prev_ids, self.max_seq_len)
 
-            buffer.append([prev_ids, padding_mask, candi_id, locale_code])
+                buffer.append([prev_ids, padding_mask, candi_id, locale_code])
         return buffer
