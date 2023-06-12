@@ -72,7 +72,7 @@ logging.info(f"version:{version}")
 model.to(device)
 logging.info(f"load model to {device} done!")
 
-min_loss = 0
+min_loss = 100000
 idx = 0
 for round in range(config.epoch):
     for train_data_batch in train_dataloader:
