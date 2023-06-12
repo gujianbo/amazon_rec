@@ -29,7 +29,7 @@ class AttentionU2I(nn.Module):
         self.relu = nn.ReLU()
 
         self.item_tower = nn.Embedding(num_items, d_model)
-        self.item_tower_fc1 = nn.Linear(2*d_model, hidden_size)
+        self.item_tower_fc1 = nn.Linear(d_model, hidden_size)
         self.item_tower_bn1 = nn.BatchNorm1d(hidden_size)
         self.item_tower_fc2 = nn.Linear(hidden_size, emb_size)
         self.item_tower_bn2 = nn.BatchNorm1d(emb_size)
@@ -54,8 +54,8 @@ class AttentionU2I(nn.Module):
         id_list_feat = self.item_embedding(id_list)
         seq_len = id_list.shape[1]
         country_feat = self.country_embedding(country_list)
-        country_repeat_feat = country_feat.repeat([1, seq_len, 1])
-        id_list_feat += country_repeat_feat
+        # country_repeat_feat = country_feat.repeat([1, seq_len, 1])
+        # id_list_feat += country_repeat_feat
         # type_list_feat = self.type_embedding(type_list)
         # id_list_feat += type_list_feat
 
@@ -90,7 +90,8 @@ class AttentionU2I(nn.Module):
 
         if item_list is not None:
             i_vec = self.item_vec(item_list, country_list)
-            i_vec = i_vec.squeeze()
+            # print(f"i_vec.shape:{i_vec.shape}")
+            # i_vec = i_vec.squeeze()
             batch_size = user_vec.shape[0]
             label = torch.arange(batch_size).to(id_list.device)
             sim = user_vec.mm(i_vec.transpose(0, 1))
@@ -124,8 +125,9 @@ class AttentionU2I(nn.Module):
 
     def item_vec(self, item_list, country_list):
         item_vec = self.item_tower(item_list.squeeze())
-        country_vec = self.country_embedding(country_list.squeeze())
-        item_vec = torch.concat([item_vec, country_vec], dim=1)
+        # print(f"item_vec.shape:{item_vec.shape}")
+        # country_vec = self.country_embedding(country_list.squeeze())
+        # item_vec = torch.concat([item_vec, country_vec], dim=1)
 
         # batch_size = item_vec.shape[0]
         # seq_len = item_vec.shape[1]
@@ -137,6 +139,7 @@ class AttentionU2I(nn.Module):
         item_vec = self.item_tower_fc2(item_vec)
         item_vec = self.item_tower_bn2(item_vec)
         item_vec = F.normalize(item_vec, dim=-1)
+        # print(f"item_vec.shape:{item_vec.shape}")
 
         # item_vec = torch.reshape(item_vec, [batch_size, seq_len, -1])
         return item_vec
@@ -196,6 +199,7 @@ if __name__ == "__main__":
     user_vec, i_vec, loss = att(id_list, mask, None, country_list, item_list=item)
     print("user_vec.shape:", user_vec.shape, user_vec)
     print("i_vec.shape:", i_vec.shape, i_vec)
+    print("loss:", loss)
     # item_vec = att.item_vec(item)
     # print(f"user_vec:{user_vec}, user_vec.shape:{user_vec.shape}")
     # print(f"item_vec:{item_vec}, item_vec.shape:{item_vec.shape}")
