@@ -75,6 +75,8 @@ class MultiHeadedAttention(nn.Module):
         :return: attention scores of shape [batch_size, slate_size, n_attention_heads, attention_dim]
         """
         d_k = query.size(-1)
+        print(f"query.shape:{query.shape}")
+        print(f"key.transpose(-2, -1).shape:{key.transpose(-2, -1).shape}")
         scores = torch.matmul(query, key.transpose(-2, -1)) / math.sqrt(d_k)
         # print("scores.shape", scores.shape)
         # print("mask.shape:", mask.shape)
