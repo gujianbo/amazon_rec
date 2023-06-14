@@ -61,7 +61,9 @@ for item_data_batch in item_dataloader:
     if idx % 1000 == 0:
         logging.info(f"{idx} batches inference done!")
     item_list = item_data_batch
-    item_list, country_list = item_list.to(device)
+    if config.log_level >= 1:
+        logging.info(f"item_list.shape:{item_list.shape}")
+    item_list = item_list.to(device)
     item_vec = model(None, None, country_list=None, item_list=item_list, type=2)
     item_vec_arr = list(item_vec.detach().squeeze().cpu().numpy())
     item_list_arr = list(item_list.detach().squeeze().cpu().numpy())
