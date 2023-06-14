@@ -51,7 +51,7 @@ class TestDataset(Dataset):
         return buffer
 
 
-class TestDataset(Dataset):
+class ItemDataset(Dataset):
     def __init__(self, file):
         self.file = file
         self.buffer = self.load_data()
