@@ -50,7 +50,10 @@ class AttentionU2I(nn.Module):
         #         self.top_tower_fc2 = nn.Linear(emb_size, 1)
         self.ce = nn.CrossEntropyLoss()
 
-    def forward(self, id_list, mask, other_feat=None, country_list=None, item_list=None):
+    def forward(self, id_list, mask, other_feat=None, country_list=None, item_list=None, type=0):
+        if type == 2:  # item
+            i_vec = self.item_vec(item_list, country_list)
+            return i_vec
         id_list_feat = self.item_embedding(id_list)
         seq_len = id_list.shape[1]
         country_feat = self.country_embedding(country_list)
@@ -88,7 +91,9 @@ class AttentionU2I(nn.Module):
         user_vec = self.user_tower_bn2(user_vec)
         user_vec = F.normalize(user_vec, dim=-1)
 
-        if item_list is not None:
+        if type == 1:  # user
+            return user_vec
+        elif item_list is not None:
             i_vec = self.item_vec(item_list, country_list)
             # print(f"i_vec.shape:{i_vec.shape}")
             # i_vec = i_vec.squeeze()
@@ -120,8 +125,9 @@ class AttentionU2I(nn.Module):
             # loss = torch.sum(bce_mat * candi_mask_list)/torch.sum(candi_mask_list)
             # out = torch.reshape(score, [batch_size, item_len, -1])
             return user_vec, i_vec, loss
+        else:
+            return None
 
-        return user_vec
 
     def item_vec(self, item_list, country_list):
         item_vec = self.item_tower(item_list.squeeze())

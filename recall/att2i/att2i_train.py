@@ -89,7 +89,7 @@ for round in range(config.epoch):
         loss.backward()
         optimizer.step()
         if idx % config.log_interval == 0:
-            logging.info(f'{idx:5d}th step | loss {loss.cpu().item():5.6f}')
+            logging.info(f'round {round} | {idx:5d}th step | loss {loss.cpu().item():5.6f}')
         if idx % config.eval_step == 0:
             model.eval()
             test_loss_sum = 0
@@ -108,7 +108,7 @@ for round in range(config.epoch):
             test_loss_avg = test_loss_sum/test_cnt
 
             logging.info(
-                    f'{idx:5d}th step | test_loss_avg {test_loss_avg:5.6f}')
+                    f'round {round} | {idx:5d}th step | test_loss_avg {test_loss_avg:5.6f}')
 
         if idx >= config.eval_step and (min_loss > test_loss_avg or idx % config.save_step == 0):
             if min_loss > test_loss_avg:

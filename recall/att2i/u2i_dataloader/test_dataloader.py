@@ -12,6 +12,7 @@ logging.basicConfig(filename=config.log_file, level=logging.DEBUG, format=LOG_FO
 
 locale_dict = {"DE": 1, "JP": 2, "UK": 3, "ES": 4, "FR": 5, "IT": 6}
 
+
 class TestDataset(Dataset):
     def __init__(self, file, need_label=True, max_seq_len=128):
         self.max_seq_len = max_seq_len
@@ -47,4 +48,25 @@ class TestDataset(Dataset):
                 prev_ids, padding_mask = process_context_item(prev_ids, self.max_seq_len)
 
                 buffer.append([prev_ids, padding_mask, candi_id, locale_code])
+        return buffer
+
+
+class TestDataset(Dataset):
+    def __init__(self, file):
+        self.file = file
+        self.buffer = self.load_data()
+
+    def __len__(self):
+        return len(self.buffer)
+
+    def __getitem__(self, index):
+        return self.buffer[index]
+
+    def load_data(self):
+        buffer = []
+        import pickle
+        product2id = pickle.load(open(self.file, 'rb'))
+        for pid in product2id:
+            id = product2id[pid]
+            buffer.append(id)
         return buffer
