@@ -70,3 +70,36 @@ class ItemDataset(Dataset):
             id = product2id[pid]
             buffer.append(id)
         return buffer
+
+
+class UserDataset(Dataset):
+    def __init__(self, file):
+        self.file = file
+        self.buffer = self.load_data()
+
+    def __len__(self):
+        return len(self.buffer)
+
+    def __getitem__(self, index):
+        return self.buffer[index]
+
+    def load_data(self):
+        buffer = []
+        fd = open(self.file, "r")
+        for line in fd:
+            line_list = line.strip('\n').split('\t')
+            if len(line_list) < 3:
+                continue
+            id_list, candi_id, locale = line_list
+            locale_code = locale_dict[locale]
+            candi_id = int(candi_id)
+            candi_id = torch.tensor([candi_id], dtype=torch.int32)
+            locale_code = int(locale_code)
+            locale_code = torch.tensor([locale_code], dtype=torch.int32)
+
+            prev_ids = [int(item) for item in id_list.split(",")]
+
+            prev_ids, padding_mask = process_context_item(prev_ids, self.max_seq_len)
+
+            buffer.append([prev_ids, padding_mask, candi_id, locale_code])
+        return buffer
