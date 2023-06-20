@@ -73,8 +73,9 @@ class ItemDataset(Dataset):
 
 
 class UserDataset(Dataset):
-    def __init__(self, file):
+    def __init__(self, file, max_seq_len=128):
         self.file = file
+        self.max_seq_len = max_seq_len
         self.buffer = self.load_data()
 
     def __len__(self):

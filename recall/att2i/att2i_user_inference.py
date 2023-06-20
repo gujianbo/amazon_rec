@@ -48,7 +48,7 @@ if config.init_parameters != "":
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logging.info(f"device:{device}")
 
-user_dataset = UserDataset(file=config.test_file)
+user_dataset = UserDataset(file=config.test_file, max_seq_len=config.max_seq_len)
 user_dataloader = DataLoader(user_dataset, config.test_batch_size)
 
 model.to(device)
