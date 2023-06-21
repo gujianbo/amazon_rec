@@ -27,3 +27,6 @@ nohup python -u eval_rank_mrr.py --input_file ${root}/cand/candi_100_top200.v5.t
   --log_file ${root}/log/eval_rank_mrr.log > log 2>&1 &
 
 python -u eval_candi.py --input_file /data/users/jianbogu/amazon/cand/candi_100_top100.v4.csv --log_file ${root}/log/eval_candi2.log
+
+nohup python -u eval_u2i.py --input_file ${root}/cand/att2i_user_test_topk \
+  --log_file ${root}/log/eval_u2i.log > log 2>&1 &
