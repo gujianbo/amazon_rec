@@ -1,7 +1,7 @@
 import xgboost
 import os
 import sys
-sys.path.append("..")
+sys.path.append("../..")
 from utils.args import config
 from tqdm.auto import tqdm
 import hashlib
