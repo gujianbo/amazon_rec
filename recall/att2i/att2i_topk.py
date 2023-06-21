@@ -29,6 +29,7 @@ def map_id(input_file, vec_file, idproduct_dict_file, output_file):
     fdout["ES"] = open(output_file+"_ES", "w")
     for line in fd:
         item_id, vec = line.strip().split("\t")
+        item_id = int(item_id)
         prod_id = id2prod[item_id]
         cnty_set = prod_dic[prod_id]
         for cnty in cnty_set:
