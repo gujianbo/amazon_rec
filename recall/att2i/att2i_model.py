@@ -73,15 +73,16 @@ class AttentionU2I(nn.Module):
         tfm_mean = tfm_sum / mask_sum
 
         batch_size = id_list.shape[0]
-        transf_feat = torch.reshape(tfm_feat, (batch_size, -1))
+        # transf_feat = torch.reshape(tfm_feat, (batch_size, -1))
+        tfm_cls = tfm_feat[:, 0, :]
 
         batch_size = country_feat.shape[0]
         country_feat_fla = torch.reshape(country_feat, (batch_size, -1))
 
         if other_feat is None:
-            all_feat = torch.concat([tfm_mean, transf_feat, country_feat_fla], dim=1)
+            all_feat = torch.concat([tfm_mean, tfm_cls, country_feat_fla], dim=1)
         else:
-            all_feat = torch.concat([tfm_mean, transf_feat, country_feat_fla, other_feat], dim=1)
+            all_feat = torch.concat([tfm_mean, tfm_cls, country_feat_fla, other_feat], dim=1)
 
         user_vec = self.user_tower_fc1(all_feat)
         user_vec = self.user_tower_bn1(user_vec)
