@@ -92,7 +92,7 @@ class MultiHeadedAttention(nn.Module):
 
 if __name__ == "__main__":
     mha = MultiHeadedAttention(4, 32)
-    input = torch.ones((10, 20, 32))
+    input = torch.rand((10, 20, 32))
     mask = torch.tensor([
         [0]*10+[1]*10,
         [0]*20+[1]*0,
