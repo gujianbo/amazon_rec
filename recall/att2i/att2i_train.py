@@ -64,7 +64,7 @@ scheduler = StepLR(optimizer=optimizer, step_size=3, gamma=0.1)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logging.info(f"device:{device}")
 
-train_dataset = TrainDataset(file_path=config.train_file, max_seq_len=config.max_seq_len)
+train_dataset = TrainDataset(file_path=config.train_file, max_seq_len=config.max_seq_len, buffer_size=100)
 train_dataloader = DataLoader(train_dataset, config.train_batch_size)
 test_dataset = TestDataset(file=config.test_file, max_seq_len=config.max_seq_len)
 test_dataloader = DataLoader(test_dataset, config.test_batch_size)
