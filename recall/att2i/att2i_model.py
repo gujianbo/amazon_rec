@@ -63,27 +63,32 @@ class AttentionU2I(nn.Module):
         # type_list_feat = self.type_embedding(type_list)
         # id_list_feat += type_list_feat
 
-        tfm_feat = self.transformer(id_list_feat, mask)
+        # tfm_feat = self.transformer(id_list_feat, mask)
 
         new_mask = mask.unsqueeze(2).repeat(1, 1, self.d_model)
-        tfm_feat = tfm_feat.masked_fill(new_mask == 1, 0.0)
+        # tfm_feat = tfm_feat.masked_fill(new_mask == 1, 0.0)
         # print(f"tfm_feat:{tfm_feat}, tfm_feat.shape:{tfm_feat.shape}")
 
-        tfm_sum = torch.sum(tfm_feat, dim=1)
-        mask_sum = torch.sum(1-new_mask, dim=1) + 0.00000001
-        tfm_mean = tfm_sum / mask_sum
+        # tfm_sum = torch.sum(tfm_feat, dim=1)
+        # mask_sum = torch.sum(1-new_mask, dim=1) + 0.00000001
+        # tfm_mean = tfm_sum / mask_sum
 
-        batch_size = id_list.shape[0]
+        id_list_feat = id_list_feat.masked_fill(new_mask == 1, 0.0)
+        seq_feat = torch.sum(id_list_feat, dim=1)
+        mask_sum = torch.sum(1 - new_mask, dim=1) + 0.00000001
+        seq_mean = seq_feat / mask_sum
+
+        # batch_size = id_list.shape[0]
         # transf_feat = torch.reshape(tfm_feat, (batch_size, -1))
-        tfm_cls = tfm_feat[:, 0, :]
+        # tfm_cls = tfm_feat[:, 0, :]
 
         batch_size = country_feat.shape[0]
         country_feat_fla = torch.reshape(country_feat, (batch_size, -1))
 
         if other_feat is None:
-            all_feat = torch.concat([tfm_mean, tfm_cls, country_feat_fla], dim=1)
+            all_feat = torch.concat([seq_mean, country_feat_fla], dim=1)
         else:
-            all_feat = torch.concat([tfm_mean, tfm_cls, country_feat_fla, other_feat], dim=1)
+            all_feat = torch.concat([seq_mean, country_feat_fla, other_feat], dim=1)
 
         user_vec = self.user_tower_fc1(all_feat)
         user_vec = self.user_tower_bn1(user_vec)

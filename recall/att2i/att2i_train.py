@@ -20,7 +20,7 @@ np.random.seed(config.seed)
 print(config)
 
 # input_size = (config.max_seq_len + 2) * config.d_model
-input_size = 3 * config.d_model
+input_size = 2 * config.d_model
 model = AttentionU2I(
     num_items=config.num_items,
     num_country=7,
