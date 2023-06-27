@@ -69,6 +69,8 @@ parser.add_argument('--if_dnn', type=int, default=0, help="if_dnn")
 parser.add_argument('--u2i_hidden_size', type=int, default=128, help="u2i_hidden_size")
 parser.add_argument('--u2i_emb_size', type=int, default=64, help="u2i_emb_size")
 
+parser.add_argument('--temperature', type=float, default=1.0, help="temperature")
+
 config = parser.parse_args()
 
 config._PAD_ = 0

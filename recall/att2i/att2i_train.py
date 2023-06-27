@@ -32,7 +32,8 @@ model = AttentionU2I(
     dropout=config.dropout,
     input_size=input_size,
     hidden_size=config.u2i_hidden_size,
-    emb_size=config.u2i_emb_size
+    emb_size=config.u2i_emb_size,
+    temperature=config.temperature
     # top_cross=config.top_cross,
     # prerank_logits=config.prerank_logits
 )

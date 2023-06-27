@@ -7,7 +7,7 @@ import torch.nn.functional as F
 
 class AttentionU2I(nn.Module):
     def __init__(self, num_items, num_country, num_layers, num_head, d_model, d_ff, max_len, dropout,
-                 input_size, hidden_size, emb_size):
+                 input_size, hidden_size, emb_size, temperature=1.0):
         super(AttentionU2I, self).__init__()
         self.num_items = num_items
         # self.num_types = num_types
@@ -49,6 +49,7 @@ class AttentionU2I(nn.Module):
         #     else:
         #         self.top_tower_fc2 = nn.Linear(emb_size, 1)
         self.ce = nn.CrossEntropyLoss()
+        self.temperature = temperature
 
     def forward(self, id_list, mask, other_feat=None, country_list=None, item_list=None, type=0):
         if type == 2:  # item
@@ -100,7 +101,7 @@ class AttentionU2I(nn.Module):
             # i_vec = i_vec.squeeze()
             batch_size = user_vec.shape[0]
             label = torch.arange(batch_size).to(id_list.device)
-            sim = user_vec.mm(i_vec.transpose(0, 1))
+            sim = user_vec.mm(i_vec.transpose(0, 1)) / self.self.temperature
             # print("sim.shape:", sim.shape)
             # print("label.shape:", label.shape)
             loss = self.ce(sim, label)
