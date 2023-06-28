@@ -60,7 +60,7 @@ optimizer = torch.optim.AdamW(
     params=model.parameters(),
     weight_decay=config.weight_decay
 )
-scheduler = StepLR(optimizer=optimizer, step_size=3, gamma=0.1)
+scheduler = StepLR(optimizer=optimizer, step_size=config.step_lr_size, gamma=0.1)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logging.info(f"device:{device}")
 
