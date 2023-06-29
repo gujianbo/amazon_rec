@@ -96,6 +96,7 @@ class AttentionU2I(nn.Module):
         user_vec = self.dropout_net(user_vec)
         user_vec = self.user_tower_fc2(user_vec)
         user_vec = self.user_tower_bn2(user_vec)
+        user_vec = self.dropout_net(user_vec)
         user_vec = F.normalize(user_vec, dim=-1)
 
         if type == 1:  # user
@@ -151,6 +152,7 @@ class AttentionU2I(nn.Module):
         item_vec = self.dropout_net(item_vec)
         item_vec = self.item_tower_fc2(item_vec)
         item_vec = self.item_tower_bn2(item_vec)
+        item_vec = self.dropout_net(item_vec)
         item_vec = F.normalize(item_vec, dim=-1)
         # print(f"item_vec.shape:{item_vec.shape}")
 
