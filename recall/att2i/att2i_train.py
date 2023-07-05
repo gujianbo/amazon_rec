@@ -115,12 +115,12 @@ for round in range(config.epoch):
         if idx >= config.eval_step and (min_loss > test_loss_avg or idx % config.save_step == 0):
             if min_loss > test_loss_avg:
                 min_loss = test_loss_avg
-            model_name = f"{config.save_path}/u2i_v{version}_steps_{idx}_{test_loss_avg:.4f}.model"
+            model_name = f"{config.save_path}/u2i_v{version}_s{idx}_{config.temperature}_{config.lr}_{config.weight_decay}_{config.test_batch_size}_{test_loss_avg:.4f}.model"
             torch.save(model.state_dict(), model_name)
             logging.info(f"model {model_name} is saved!")
         idx += 1
     scheduler.step()
 
-model_name = f"{config.save_path}/u2i_v{version}_steps_{idx}_{test_loss_avg:.4f}.model"
+model_name = f"{config.save_path}/u2i_v{version}_s{idx}_{config.temperature}_{config.lr}_{config.weight_decay}_{config.test_batch_size}_{test_loss_avg:.4f}.model"
 torch.save(model.state_dict(), model_name)
 logging.info(f"model {model_name} is saved!")

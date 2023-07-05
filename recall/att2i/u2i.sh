@@ -12,6 +12,13 @@ nohup python -u att2i_train.py --train_file ${root}/cand/u2i_train \
   --epoch 60 --lr 1e-3 --step_lr_size 5 \
   --weight_decay 0.01 --save_step 50000 > log 2>&1 &
 
+nohup python -u att2i_train.py --train_file ${root}/cand/u2i_train \
+  --test_file ${root}/cand/u2i_test \
+  --save_path ${root}/models/ --log_file ${root}/log/u2i.log \
+  --d_model 128 --d_ff 128 --temperature 0.1 --train_batch_size 512 \
+  --epoch 60 --lr 1e-3 --step_lr_size 5 --eval_step 5000 \
+  --weight_decay 3.0 --save_step 50000 > log 2>&1 &
+
 nohup python -u att2i_item_inference.py \
   --test_file ${root}/data/product2id.dict --log_file ${root}/log/u2i.log --d_model 128 --d_ff 128 \
   --output_file ${root}/cand/att2i_item_vec \
