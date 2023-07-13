@@ -21,8 +21,8 @@ nohup python -u att2i_train.py --train_file ${root}/cand/u2i_train \
 
 nohup python -u att2i_item_inference.py \
   --test_file ${root}/data/product2id.dict --log_file ${root}/log/u2i.log --d_model 128 --d_ff 128 \
-  --output_file ${root}/cand/att2i_item_vec \
-  --init_parameters ${root}/models/u2i_v1686538789_steps_336240_4.1573.model > log 2>&1 &
+  --output_file ${root}/cand/att2i_item_vec_v1688543483 \
+  --init_parameters ${root}/models/u2i_v1688543483_s28000_0.1_0.001_2.6_512_5.7405.model > log 2>&1 &
 
 nohup python -u att2i_user_inference.py \
   --test_file ${root}/cand/u2i_test --log_file ${root}/log/u2i.log --d_model 128 --d_ff 128 \
