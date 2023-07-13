@@ -141,5 +141,5 @@ def get_topk(input_file, item_file, output_file, dim=128, topk=100, batch_size=1
 
 
 if __name__ == "__main__":
-    # map_id(config.product_file, config.itemvec_file, config.idproduct_dict_file, config.item_file)
+    map_id(config.product_file, config.itemvec_file, config.idproduct_dict_file, config.item_file)
     get_topk(config.input_file, config.item_file, config.output_file, config.dim, config.topk, config.batch_size, config.use_gpu)

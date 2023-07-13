@@ -30,6 +30,6 @@ nohup python -u att2i_user_inference.py \
   --init_parameters ${root}/models/u2i_v1688543483_s28000_0.1_0.001_2.6_512_5.7405.model > log 2>&1 &
 
 nohup python -u att2i_topk.py \
-  --product_file ${root}/data/products_train.csv --itemvec_file ${root}/cand/att2i_item_vec --idproduct_dict_file ${root}/data/id2product.dict \
-  --item_file ${root}/cand/part_item_vec --input_file ${root}/cand/att2i_user_test_vec --output_file ${root}/cand/att2i_user_test_topk --dim 64 \
+  --product_file ${root}/data/products_train.csv --itemvec_file ${root}/cand/att2i_item_vec_v1688543483 --idproduct_dict_file ${root}/data/id2product.dict \
+  --item_file ${root}/cand/part_item_vec --input_file ${root}/cand/att2i_user_test_vec_v1688543483 --output_file ${root}/cand/att2i_user_test_topk_v1688543483 --dim 64 \
   --batch_size 128 --use_gpu 1 > log 2>&1 &
